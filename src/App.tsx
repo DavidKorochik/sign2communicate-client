@@ -5,7 +5,7 @@ const App: React.FC = () => {
   return (
     <>
       <AppLayout>
-        <div>Layout</div>
+        <div></div>
       </AppLayout>
     </>
   );
