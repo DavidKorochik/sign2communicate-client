@@ -1,7 +1,14 @@
 import * as React from 'react';
+import AppLayout from './components/layout/Layout';
 
-function App() {
-  return <div></div>;
-}
+const App: React.FC = () => {
+  return (
+    <>
+      <AppLayout>
+        <div>Layout</div>
+      </AppLayout>
+    </>
+  );
+};
 
 export default App;
