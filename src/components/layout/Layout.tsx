@@ -29,7 +29,7 @@ const AppLayout: React.FC<Props> = ({ children }) => {
         <Menu
           theme='dark'
           mode='inline'
-          defaultSelectedKeys={['4']}
+          defaultSelectedKeys={['1']}
           style={{ marginTop: '20px' }}
         >
           <Menu.Item key='1' icon={<HomeOutlined />}>
