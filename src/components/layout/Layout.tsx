@@ -41,10 +41,10 @@ const AppLayout: React.FC<Props> = ({ children }) => {
           <Menu.Item key='3' icon={<UploadOutlined />}>
             בקשת החתמה
           </Menu.Item>
-          <Menu.Item key='3' icon={<LoginOutlined />}>
+          <Menu.Item key='4' icon={<LoginOutlined />}>
             כנס למערכת
           </Menu.Item>
-          <Menu.Item key='3' icon={<UserAddOutlined />}>
+          <Menu.Item key='5' icon={<UserAddOutlined />}>
             הירשם למרכת
           </Menu.Item>
         </Menu>
