@@ -14,9 +14,9 @@ const Login: React.FC = () => {
       animate={pageAnimation.enter}
       exit={pageAnimation.exit}
     >
-      <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
-        <h1 className='form-title'>ברוכים הבאים!</h1>
+      <h1 className='form-title'>ברוכים הבאים!</h1>
 
+      <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
         <Form.Item
           name='personal_number'
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}

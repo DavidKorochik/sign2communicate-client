@@ -14,9 +14,9 @@ const Signup: React.FC = () => {
       animate={pageAnimation.enter}
       exit={pageAnimation.exit}
     >
-      <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
-        <h1 className='form-title'>הירשם לאתר</h1>
+      <h1 className='form-title'>הירשם לאתר</h1>
 
+      <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
         <Form.Item
           name='name'
           rules={[{ required: true, message: 'הכנס/י את שמך המלא' }]}
