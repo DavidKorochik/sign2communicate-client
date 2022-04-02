@@ -1,10 +1,19 @@
 import * as React from 'react';
 import { Form, Input, Button } from 'antd';
+import { motion } from 'framer-motion';
+import { pageAnimation } from '../../utils/animations';
 import './Login.css';
 
 const Login: React.FC = () => {
   return (
-    <>
+    <motion.div
+      className='ant-form'
+      transition={{ type: 'linear' }}
+      variants={pageAnimation}
+      initial={pageAnimation.hidden}
+      animate={pageAnimation.enter}
+      exit={pageAnimation.exit}
+    >
       <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
         <h1 className='form-title'>ברוכים הבאים!</h1>
 
@@ -24,7 +33,7 @@ const Login: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </motion.div>
   );
 };
 
