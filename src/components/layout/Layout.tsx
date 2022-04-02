@@ -1,14 +1,6 @@
 import * as React from 'react';
-import { Layout, Menu } from 'antd';
-import {
-  RocketOutlined,
-  UploadOutlined,
-  HomeOutlined,
-  FolderOpenOutlined,
-  LoginOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons';
-
+import { Layout } from 'antd';
+import Navbar from '../navbar/Navbar';
 interface Props {
   children: React.ReactNode;
 }
@@ -26,40 +18,7 @@ const AppLayout: React.FC<Props> = ({ children }) => {
           console.log(collapsed, type);
         }}
       >
-        <Menu
-          theme='dark'
-          mode='inline'
-          defaultSelectedKeys={['1']}
-          style={{ marginTop: '20px' }}
-        >
-          <Menu.Item key='1' icon={<HomeOutlined />}>
-            בית
-          </Menu.Item>
-          <Menu.Item key='2' icon={<FolderOpenOutlined />}>
-            החתימות שלי
-          </Menu.Item>
-          <Menu.Item key='3' icon={<UploadOutlined />}>
-            בקשת החתמה
-          </Menu.Item>
-          <Menu.Item key='4' icon={<LoginOutlined />}>
-            כנס למערכת
-          </Menu.Item>
-          <Menu.Item key='5' icon={<UserAddOutlined />}>
-            הירשם למרכת
-          </Menu.Item>
-        </Menu>
-        <div
-          className='logo'
-          style={{
-            color: 'white',
-            fontSize: '50px',
-            position: 'absolute',
-            bottom: '10%',
-            left: '30%',
-          }}
-        >
-          <RocketOutlined />
-        </div>
+        <Navbar />
       </Layout.Sider>
       {children}
     </Layout>
