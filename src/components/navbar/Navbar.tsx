@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
         theme='dark'
         mode='inline'
         defaultSelectedKeys={['1']}
-        style={{ marginTop: '20px' }}
+        style={{ marginTop: '20px', fontSize: '15px' }}
       >
         <Menu.Item key='1' icon={<HomeOutlined />}>
           <NavLink to='/'>בית</NavLink>
