@@ -1,6 +1,8 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
+import { equipmentData } from '../../utils/equipmentData';
+import moment from 'moment';
 import './AddSigning.css';
 import {
   Form,
@@ -14,16 +16,33 @@ import {
 
 const { TextArea } = Input;
 
-// Tree select data boilerplate
-//{
-// title: 'Light',
-// value: 'light',
-// children: [{ title: 'Bamboo', value: 'bamboo' }],
-//},
-
 const format = 'HH:mm';
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
-function AddSigning() {
+const AddSigning: React.FC = () => {
+  const [equipment, setEquipment] = useState<string[]>([]);
+  // const [numberOfEquipment, setNumberOfEquipment] = useState<string>('');
+  const [signingDate, setSigningDate] = useState<null | moment.Moment>();
+  const [returnDate, setReturnDate] = useState<null | moment.Moment>();
+  const [signingTime, setSigningTime] = useState<null | moment.Moment>();
+  const [description, setDescription] = useState<string>('');
+
+  const handleSubmit = (): void => {
+    console.log(
+      equipment,
+      moment(signingDate).format('DD/MM/YYYY'),
+      moment(returnDate).format('DD/MM/YYYY'),
+      moment(signingTime).format('HH:mm'),
+      description
+    );
+
+    setEquipment([]);
+    setSigningDate(null);
+    setReturnDate(null);
+    setSigningTime(null);
+    setDescription('');
+  };
+
   return (
     <motion.div
       className='form-main'
@@ -37,9 +56,11 @@ function AddSigning() {
         הוסף בקשה לחתימה
       </h1>
 
-      <Form layout='horizontal'>
-        <Form.Item style={{ width: '15%', textAlign: 'right' }}>
+      <Form onSubmitCapture={handleSubmit} layout='horizontal'>
+        <Form.Item style={{ width: '20%', textAlign: 'right' }}>
           <TreeSelect
+            value={equipment}
+            onChange={(equipmentData: string[]) => setEquipment(equipmentData)}
             showSearch
             style={{ width: '100%' }}
             dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
@@ -47,35 +68,50 @@ function AddSigning() {
             allowClear
             multiple
             treeDefaultExpandAll
-            treeData={[
-              {
-                title: '624',
-                value: '624',
-              },
-              {
-                title: '709',
-                value: '709',
-              },
-            ]}
+            treeCheckable={true}
+            treeData={equipmentData}
           />
         </Form.Item>
 
         <Space direction='horizontal'>
           <Form.Item style={{ textAlign: 'right' }}>
-            <DatePicker placeholder='תאריך ההחזרה' />
+            <DatePicker
+              value={returnDate}
+              format={dateFormatList}
+              onChange={(date: moment.Moment | null): void =>
+                setReturnDate(date)
+              }
+              placeholder='תאריך ההחזרה'
+            />
           </Form.Item>
 
           <Form.Item style={{ textAlign: 'right' }}>
-            <DatePicker placeholder='תאריך החתימה' />
+            <DatePicker
+              value={signingDate}
+              format={dateFormatList}
+              onChange={(date: moment.Moment | null): void =>
+                setSigningDate(date)
+              }
+              placeholder='תאריך החתימה'
+            />
           </Form.Item>
         </Space>
 
         <Form.Item style={{ textAlign: 'right' }}>
-          <TimePicker format={format} placeholder='שעת ההחתמה' />
+          <TimePicker
+            value={signingTime}
+            onChange={(time: moment.Moment | null): void =>
+              setSigningTime(time)
+            }
+            format={format}
+            placeholder='שעת ההחתמה'
+          />
         </Form.Item>
 
         <Form.Item>
           <TextArea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder='הערות'
             style={{ textAlign: 'right' }}
             rows={4}
@@ -90,6 +126,6 @@ function AddSigning() {
       </Form>
     </motion.div>
   );
-}
+};
 
 export default AddSigning;
