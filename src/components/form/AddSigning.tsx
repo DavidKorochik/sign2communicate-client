@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { equipmentData } from '../../utils/equipmentData';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { addSigning } from '../../recoilFunctions';
+import { addSigning } from '../../utils/recoilFunctions';
 import moment from 'moment';
 import './AddSigning.css';
 import {
