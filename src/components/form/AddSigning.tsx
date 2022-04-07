@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { equipmentData } from '../../utils/equipmentData';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { addSigning } from '../../recoilFunctions';
 import moment from 'moment';
 import './AddSigning.css';
 import {
@@ -13,6 +15,14 @@ import {
   Space,
   TimePicker,
 } from 'antd';
+import {
+  // signingEquipmentState,
+  // signingDateState,
+  // returnDateState,
+  // signingTimeState,
+  // signingDescriptionState,
+  signingState,
+} from '../../recoil/signings/atoms/atoms';
 
 const { TextArea } = Input;
 
@@ -20,21 +30,43 @@ const format = 'HH:mm';
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 const AddSigning: React.FC = () => {
+  const [signingData] = useRecoilValue(signingState);
   const [equipment, setEquipment] = useState<string[]>([]);
-  // const [numberOfEquipment, setNumberOfEquipment] = useState<string>('');
-  const [signingDate, setSigningDate] = useState<null | moment.Moment>();
-  const [returnDate, setReturnDate] = useState<null | moment.Moment>();
-  const [signingTime, setSigningTime] = useState<null | moment.Moment>();
+  const [signingDate, setSigningDate] = useState<moment.Moment | null>(null);
+  const [returnDate, setReturnDate] = useState<moment.Moment | null>(null);
+  const [signingTime, setSigningTime] = useState<moment.Moment | null>(null);
   const [description, setDescription] = useState<string>('');
 
-  const handleSubmit = (): void => {
-    console.log(
+  // const [equipment, setEquipment] = useRecoilState<string[]>(
+  //   signingEquipmentState
+  // );
+
+  // const [signingDate, setSigningDate] = useRecoilState<null | moment.Moment>(
+  //   signingDateState
+  // );
+
+  // const [returnDate, setReturnDate] = useRecoilState<null | moment.Moment>(
+  //   returnDateState
+  // );
+
+  // const [signingTime, setSigningTime] = useRecoilState<null | moment.Moment>(
+  //   signingTimeState
+  // );
+
+  // const [description, setDescription] = useRecoilState<string>(
+  //   signingDescriptionState
+  // );
+
+  const handleSubmit = async (): Promise<void> => {
+    await addSigning({
       equipment,
-      moment(signingDate).format('DD/MM/YYYY'),
-      moment(returnDate).format('DD/MM/YYYY'),
-      moment(signingTime).format('HH:mm'),
-      description
-    );
+      signingDate: moment(signingDate).format('DD/MM/YYYY'),
+      returnDate: moment(returnDate).format('DD/MM/YYYY'),
+      signingTime: moment(signingTime).format('HH:mm'),
+      description,
+    });
+
+    console.log(signingData);
 
     setEquipment([]);
     setSigningDate(null);
