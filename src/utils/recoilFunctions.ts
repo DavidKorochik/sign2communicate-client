@@ -1,11 +1,9 @@
 import axios from 'axios';
 import type { ISigning } from '../interfaces/signing/types';
-import { signingState } from '../recoil/signings/atoms/atoms';
+import { signingState, loadingState } from '../recoil/signings/atoms/atoms';
 import { useRecoilState } from 'recoil';
 
-export const addSigning = async (signing: ISigning): Promise<void> => {
-  const [_, setSigningData] = useRecoilState(signingState);
-
+export const addSigning = async (signing: ISigning | undefined) => {
   const options = {
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +11,7 @@ export const addSigning = async (signing: ISigning): Promise<void> => {
   };
   try {
     const res = await axios.post('/api/signings', signing, options);
-    setSigningData(res.data);
+    return res.data;
   } catch (err: any) {
     console.error(err.message);
   }
