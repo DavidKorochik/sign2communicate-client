@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ISigning } from '../interfaces/signing/types';
+import type { ISigning } from '../../interfaces/signing/types';
 
 export const addSigning = async (signing: ISigning) => {
   const config = {

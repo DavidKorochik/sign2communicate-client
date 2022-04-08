@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { equipmentData } from '../../utils/equipmentData';
 import { useRecoilState } from 'recoil';
-import { addSigning } from '../../utils/recoilFunctions';
+import { addSigning } from '../../utils/signings/recoilFunctions';
 import { signingState, loadingState } from '../../recoil/signings/atoms/atoms';
 import type { ISigning } from '../../interfaces/signing/types';
 import moment from 'moment';
