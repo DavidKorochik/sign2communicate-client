@@ -8,7 +8,7 @@ export const getSignings = selector({
       const res = await axios.get('/api/signings');
       return res.data;
     } catch (err: any) {
-      console.error(err.message);
+      console.error(err.message.data.error);
     }
   },
 });

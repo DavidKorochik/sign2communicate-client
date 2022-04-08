@@ -1,26 +1,25 @@
 import axios from 'axios';
 import type { ISigning } from '../interfaces/signing/types';
-import { signingState, loadingState } from '../recoil/signings/atoms/atoms';
-import { useRecoilState } from 'recoil';
 
-export const addSigning = async (signing: ISigning | undefined) => {
-  const options = {
+export const addSigning = async (signing: ISigning) => {
+  const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
+
   try {
-    const res = await axios.post('/api/signings', signing, options);
+    const res = await axios.post('/api/signing', signing, config);
     return res.data;
   } catch (err: any) {
-    console.error(err.message);
+    console.error(err.message.data.error);
   }
 };
 
 export const deleteSigning = async (id: string): Promise<void> => {
   try {
-    await axios.delete(`/api/signings/${id}`);
+    await axios.delete(`/api/signing/${id}`);
   } catch (err: any) {
-    console.error(err.message);
+    console.error(err.message.data.error);
   }
 };
