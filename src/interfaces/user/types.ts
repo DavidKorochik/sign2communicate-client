@@ -6,6 +6,6 @@ export interface IUser {
   personal_number: string;
   phone_number: string;
   military_unit: string;
-  role: string;
+  role?: string;
   signings?: ISigning[];
 }
