@@ -2,14 +2,10 @@ import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { loginUser, loadUser } from '../../utils/users/recoilFunctions';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import {
-  loadingStateUser,
-  tokenState,
-  userState,
-} from '../../recoil/users/atoms/atoms';
+import { loadingStateUser, userState } from '../../recoil/users/atoms/atoms';
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -17,19 +13,18 @@ const Login: React.FC = () => {
 
   const setLoading = useSetRecoilState(loadingStateUser);
   const setUser = useSetRecoilState(userState);
-  const token = useRecoilValue(tokenState);
 
-  const [pnumber, setPnumber] = useState<string>('');
+  const [personalNumber, setPersonalNumber] = useState<string>('');
 
-  const handleSubmit = async () => {
-    await loginUser(pnumber);
+  const handleSubmit = async (): Promise<void> => {
+    await loginUser(personalNumber);
 
     const res = await loadUser();
     setUser(res);
 
     navigator('/create', { replace: true });
 
-    setPnumber('');
+    setPersonalNumber('');
 
     setLoading(false);
   };
@@ -56,8 +51,8 @@ const Login: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}
         >
           <Input
-            value={pnumber}
-            onChange={(e) => setPnumber(e.target.value)}
+            value={personalNumber}
+            onChange={(e) => setPersonalNumber(e.target.value)}
             placeholder='מספר אישי'
             style={{ textAlign: 'right', borderRadius: '5px' }}
           />
