@@ -5,7 +5,11 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { pageAnimation } from '../../utils/animations';
 import { createUser, loadUser } from '../../utils/users/recoilFunctions';
 import { useSetRecoilState } from 'recoil';
-import { loadingStateUser, userState } from '../../recoil/users/atoms/atoms';
+import {
+  loadingStateUser,
+  userState,
+  isAuthenticatedState,
+} from '../../recoil/users/atoms/atoms';
 import './Signup.css';
 
 const Signup: React.FC = () => {
@@ -13,6 +17,7 @@ const Signup: React.FC = () => {
 
   const setLoading = useSetRecoilState(loadingStateUser);
   const setUser = useSetRecoilState(userState);
+  const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
 
   const [name, setName] = useState<string>('');
   const [personalNumbner, setPersonalNumber] = useState<string>('');
@@ -31,6 +36,8 @@ const Signup: React.FC = () => {
     setUser(res);
 
     navigator('/create', { replace: true });
+
+    setIsAuthenticated(true);
 
     setName('');
     setPersonalNumber('');
