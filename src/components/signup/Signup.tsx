@@ -35,8 +35,6 @@ const Signup: React.FC = () => {
     const res = await loadUser();
     setUser(res);
 
-    navigator('/create', { replace: true });
-
     setIsAuthenticated(true);
 
     setName('');
@@ -45,6 +43,8 @@ const Signup: React.FC = () => {
     setMilitaryUnit('');
 
     setLoading(false);
+
+    navigator('/create');
   };
 
   return (

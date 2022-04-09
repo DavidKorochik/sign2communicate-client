@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { useSetRecoilState } from 'recoil';
 import { loginUser, loadUser } from '../../utils/users/recoilFunctions';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useLocation } from 'react-router-dom';
 import {
   loadingStateUser,
   userState,
@@ -27,13 +27,13 @@ const Login: React.FC = () => {
     const res = await loadUser();
     setUser(res);
 
-    navigator('/create', { replace: true });
-
     setIsAuthenticated(true);
 
     setPersonalNumber('');
 
     setLoading(false);
+
+    navigator('/create');
   };
 
   return (
