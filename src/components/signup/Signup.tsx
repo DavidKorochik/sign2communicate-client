@@ -1,10 +1,45 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { motion } from 'framer-motion';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { pageAnimation } from '../../utils/animations';
+import { createUser, loadUser } from '../../utils/users/recoilFunctions';
+import { useSetRecoilState } from 'recoil';
+import { loadingStateUser, userState } from '../../recoil/users/atoms/atoms';
 import './Signup.css';
 
 const Signup: React.FC = () => {
+  let navigator: NavigateFunction = useNavigate();
+
+  const setLoading = useSetRecoilState(loadingStateUser);
+  const setUser = useSetRecoilState(userState);
+
+  const [name, setName] = useState<string>('');
+  const [personalNumbner, setPersonalNumber] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [militaryUnit, setMilitaryUnit] = useState<string>('');
+
+  const handleSubmit = async (): Promise<void> => {
+    await createUser({
+      name,
+      personal_number: personalNumbner,
+      phone_number: phoneNumber,
+      military_unit: militaryUnit,
+    });
+
+    const res = await loadUser();
+    setUser(res);
+
+    navigator('/create', { replace: true });
+
+    setName('');
+    setPersonalNumber('');
+    setPhoneNumber('');
+    setMilitaryUnit('');
+
+    setLoading(false);
+  };
+
   return (
     <motion.div
       className='ant-form'
@@ -16,12 +51,19 @@ const Signup: React.FC = () => {
     >
       <h1 className='form-title'>הירשם לאתר</h1>
 
-      <Form name='basic' initialValues={{ remember: true }} autoComplete='off'>
+      <Form
+        onSubmitCapture={handleSubmit}
+        name='basic'
+        initialValues={{ remember: true }}
+        autoComplete='off'
+      >
         <Form.Item
           name='name'
           rules={[{ required: true, message: 'הכנס/י את שמך המלא' }]}
         >
           <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder='שם מלא'
             style={{ textAlign: 'right', borderRadius: '5px' }}
           />
@@ -32,6 +74,8 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}
         >
           <Input
+            value={personalNumbner}
+            onChange={(e) => setPersonalNumber(e.target.value)}
             placeholder='מספר אישי'
             style={{ textAlign: 'right', borderRadius: '5px' }}
           />
@@ -42,6 +86,8 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את מספר הטלפון שלך' }]}
         >
           <Input
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder='מספר טלפון'
             style={{ textAlign: 'right', borderRadius: '5px' }}
           />
@@ -52,6 +98,8 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את הפלוגה/מחלקה שלך' }]}
         >
           <Input
+            value={militaryUnit}
+            onChange={(e) => setMilitaryUnit(e.target.value)}
             placeholder='פלוגה/מחלקה'
             style={{ textAlign: 'right', borderRadius: '5px' }}
           />
