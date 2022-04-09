@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import type { IUser } from '../../interfaces/user/types';
 import { authToken } from '../authToken';
 
