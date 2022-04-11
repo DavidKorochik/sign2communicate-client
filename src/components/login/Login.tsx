@@ -34,6 +34,8 @@ const Login: React.FC = () => {
     setLoading(false);
 
     navigator('/create');
+
+    window.location.reload();
   };
 
   return (
