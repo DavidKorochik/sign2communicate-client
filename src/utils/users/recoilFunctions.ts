@@ -44,3 +44,7 @@ export const loginUser = async (personal_number: string): Promise<void> => {
     console.error(err.response.data.error);
   }
 };
+
+export const logoutUser = (): void => {
+  localStorage.removeItem('auth-token');
+};
