@@ -4,10 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { handleAuthenticatedNavbarSelectedKeys } from './keys/auth-keys';
 import { handleNotAuthenticatedNavbarSelectedKeys } from './keys/unauth-keys';
-import {
-  tokenState,
-  isAuthenticatedState,
-} from '../../recoil/users/atoms/atoms';
+import { logoutUser } from '../../utils/users/recoilFunctions';
 import {
   RocketOutlined,
   UploadOutlined,
@@ -16,11 +13,21 @@ import {
   LoginOutlined,
   UserAddOutlined,
 } from '@ant-design/icons';
+import {
+  tokenState,
+  isAuthenticatedState,
+} from '../../recoil/users/atoms/atoms';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
   const token = useRecoilValue(tokenState);
   const isAuthenticated = useRecoilValue(isAuthenticatedState);
+
+  const handleLogoutUser = () => {
+    logoutUser();
+
+    window.location.reload();
+  };
 
   return (
     <>
@@ -45,7 +52,9 @@ const Navbar: React.FC = () => {
             </Menu.Item>
 
             <Menu.Item key='4' icon={<LoginOutlined />}>
-              <NavLink to='/login'>צא מהמערכת</NavLink>
+              <NavLink onClick={() => handleLogoutUser()} to='/login'>
+                צא מהמערכת
+              </NavLink>
             </Menu.Item>
           </Menu>
           <div className='logo'>

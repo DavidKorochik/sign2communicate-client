@@ -8,5 +8,7 @@ export const handleNotAuthenticatedNavbarSelectedKeys = ():
       return ['2'];
     case '/signup':
       return ['3'];
+    default:
+      return ['2'];
   }
 };

@@ -8,5 +8,7 @@ export const handleAuthenticatedNavbarSelectedKeys = ():
       return ['2'];
     case '/create':
       return ['3'];
+    default:
+      return ['3'];
   }
 };
