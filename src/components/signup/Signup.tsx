@@ -45,6 +45,8 @@ const Signup: React.FC = () => {
     setLoading(false);
 
     navigator('/create');
+
+    window.location.reload();
   };
 
   return (
