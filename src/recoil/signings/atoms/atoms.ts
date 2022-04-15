@@ -7,8 +7,8 @@ export const signingState = atom<ISigning[]>({
     {
       equipment: [],
       signingDate: null,
-      returnDate: null,
-      signingTime: null,
+      returningDate: null,
+      time: null,
       description: '',
     },
   ],
