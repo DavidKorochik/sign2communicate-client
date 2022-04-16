@@ -21,7 +21,7 @@ import {
 const { TextArea } = Input;
 
 const format = 'HH:mm';
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+const dateFormatList = ['DD/MM/YYYY'];
 
 const AddSigning: React.FC = () => {
   const [signingData, setSigningData] =
@@ -36,15 +36,15 @@ const AddSigning: React.FC = () => {
   const handleSubmit = async (): Promise<void> => {
     const res = await addSigning({
       equipment,
-      signingDate: moment(signingDate).format('DD/MM/YYYY'),
-      returnDate: moment(returnDate).format('DD/MM/YYYY'),
-      signingTime: moment(signingTime).format('HH:mm'),
+      signingDate: moment(signingDate).format('MM/DD/YYYY'),
+      returningDate: moment(returnDate).format('MM/DD/YYYY'),
+      time: moment(signingTime).format('HH:mm'),
       description,
     });
 
-    setSigningData(res);
+    console.log(res);
 
-    console.log(signingData);
+    setSigningData(res);
 
     setEquipment([]);
     setSigningDate(null);

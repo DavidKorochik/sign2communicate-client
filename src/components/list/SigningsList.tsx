@@ -1,49 +1,44 @@
-import * as React from 'react';
-import { SelectorCallbackInterface, useRecoilValue } from 'recoil';
-import { Skeleton, Switch, Card, Avatar } from 'antd';
-import { loadingState } from '../../recoil/signings/atoms/atoms';
-import { getSignings } from '../../recoil/signings/selectors/selectors';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-
-const { Meta } = Card;
+import { useEffect, useState } from 'react';
+import { getSignings } from '../../utils/signings/recoilFunctions';
+import { Row } from 'antd';
+import Signing from '../signing/Signing';
+import type { ISigning } from '../../interfaces/signing/types';
+import { motion } from 'framer-motion';
+import { pageAnimation } from '../../utils/animations';
+import moment from 'moment';
+import './SigningsList.css';
 
 const SigningsList: React.FC = () => {
-  const loading = useRecoilValue<boolean>(loadingState);
-  const signings = useRecoilValue<SelectorCallbackInterface>(getSignings);
+  const [signingsListState, setSigningsListState] = useState<ISigning[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getSignings();
+      setSigningsListState(res);
+    })();
+  }, []);
 
   return (
-    <>
-      <Switch checked={!loading} />
-
-      <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
-        <Meta
-          avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-          title='Card title'
-          description='This is the description'
-        />
-      </Card>
-
-      <Card
-        style={{ width: 300, marginTop: 16 }}
-        actions={[
-          <SettingOutlined key='setting' />,
-          <EditOutlined key='edit' />,
-          <EllipsisOutlined key='ellipsis' />,
-        ]}
-      >
-        <Skeleton loading={loading} avatar active>
-          <Meta
-            avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-            title='Card title'
-            description='This is the description'
-          />
-        </Skeleton>
-      </Card>
-    </>
+    <motion.div
+      className='card-wrapper'
+      transition={{ type: 'linear' }}
+      variants={pageAnimation}
+      initial={pageAnimation.hidden}
+      animate={pageAnimation.enter}
+      exit={pageAnimation.exit}
+    >
+      <Row>
+        {signingsListState.map((signing) => (
+          <div style={{ margin: '40px' }}>
+            <Signing
+              key={signing.id}
+              description={signing.description}
+              signingDate={moment(signing.signingDate).format('DD/MM/YYYY')}
+            />
+          </div>
+        ))}
+      </Row>
+    </motion.div>
   );
 };
 
