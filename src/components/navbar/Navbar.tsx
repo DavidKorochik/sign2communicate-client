@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
               <NavLink to='/create'>בקשת החתמה</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='/login' icon={<LoginOutlined />}>
+            <Menu.Item key='3' icon={<LoginOutlined />}>
               <NavLink onClick={handleLogoutUser} to='/login'>
                 צא מהמערכת
               </NavLink>
