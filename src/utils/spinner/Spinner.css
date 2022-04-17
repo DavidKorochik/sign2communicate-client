@@ -1,0 +1,20 @@
+.loader {
+  animation: infinite-spinning 1.5s infinite;
+  animation-timing-function: linear;
+  transform-origin: 330% 500%;
+}
+
+@keyframes infinite-spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-wrapper {
+  position: absolute;
+  left: 46%;
+  top: 20%;
+}
