@@ -4,9 +4,8 @@ import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { useSetRecoilState } from 'recoil';
 import { loginUser, loadUser } from '../../utils/users/recoilFunctions';
-import { NavigateFunction, useNavigate, useLocation } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import {
-  loadingStateUser,
   userState,
   isAuthenticatedState,
 } from '../../recoil/users/atoms/atoms';
@@ -15,27 +14,29 @@ import './Login.css';
 const Login: React.FC = () => {
   let navigator: NavigateFunction = useNavigate();
 
-  const setLoading = useSetRecoilState(loadingStateUser);
   const setUser = useSetRecoilState(userState);
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
 
   const [personalNumber, setPersonalNumber] = useState<string>('');
 
   const handleSubmit = async (): Promise<void> => {
-    await loginUser(personalNumber);
+    const [_, res] = await Promise.all([
+      await loginUser(personalNumber),
+      await loadUser(),
+    ]);
 
-    const res = await loadUser();
+    console.log(res);
+
+    // await loginUser(personalNumber);
+
+    // const res = await loadUser();
     setUser(res);
 
     setIsAuthenticated(true);
 
     setPersonalNumber('');
 
-    setLoading(false);
-
-    navigator('/create');
-
-    window.location.reload();
+    navigator('/signings');
   };
 
   return (

@@ -6,7 +6,6 @@ import { pageAnimation } from '../../utils/animations';
 import { createUser, loadUser } from '../../utils/users/recoilFunctions';
 import { useSetRecoilState } from 'recoil';
 import {
-  loadingStateUser,
   userState,
   isAuthenticatedState,
 } from '../../recoil/users/atoms/atoms';
@@ -15,7 +14,6 @@ import './Signup.css';
 const Signup: React.FC = () => {
   let navigator: NavigateFunction = useNavigate();
 
-  const setLoading = useSetRecoilState(loadingStateUser);
   const setUser = useSetRecoilState(userState);
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedState);
 
@@ -25,14 +23,24 @@ const Signup: React.FC = () => {
   const [militaryUnit, setMilitaryUnit] = useState<string>('');
 
   const handleSubmit = async (): Promise<void> => {
-    await createUser({
-      name,
-      personal_number: personalNumbner,
-      phone_number: phoneNumber,
-      military_unit: militaryUnit,
-    });
+    const [_, res] = await Promise.all([
+      await createUser({
+        name,
+        personal_number: personalNumbner,
+        phone_number: phoneNumber,
+        military_unit: militaryUnit,
+      }),
+      await loadUser(),
+    ]);
 
-    const res = await loadUser();
+    // await createUser({
+    //   name,
+    //   personal_number: personalNumbner,
+    //   phone_number: phoneNumber,
+    //   military_unit: militaryUnit,
+    // });
+
+    // const res = await loadUser();
     setUser(res);
 
     setIsAuthenticated(true);
@@ -42,11 +50,7 @@ const Signup: React.FC = () => {
     setPhoneNumber('');
     setMilitaryUnit('');
 
-    setLoading(false);
-
-    navigator('/create');
-
-    window.location.reload();
+    navigator('/signings');
   };
 
   return (
