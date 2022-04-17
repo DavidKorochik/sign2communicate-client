@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useEffect, useState } from 'react';
 import { getSignings } from '../../utils/signings/recoilFunctions';
 import { loadingState } from '../../recoil/signings/atoms/atoms';
 import { useRecoilState } from 'recoil';
@@ -15,16 +15,19 @@ const SigningsList: React.FC = () => {
   const [signingsListState, setSigningsListState] = useState<ISigning[]>([]);
   const [loading, setLoading] = useRecoilState<boolean>(loadingState);
 
+  // useEffect(() => {}, [signingsListState]);
+
   useLayoutEffect(() => {
     (async () => {
+      setLoading(true);
       const res = await getSignings();
       setSigningsListState(res);
     })();
 
     setTimeout(() => {
       setLoading(false);
-    }, 1700);
-  }, []);
+    }, 1500);
+  }, [setSigningsListState]);
 
   return (
     <>
