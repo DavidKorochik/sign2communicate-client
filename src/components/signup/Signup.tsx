@@ -33,14 +33,6 @@ const Signup: React.FC = () => {
       await loadUser(),
     ]);
 
-    // await createUser({
-    //   name,
-    //   personal_number: personalNumbner,
-    //   phone_number: phoneNumber,
-    //   military_unit: militaryUnit,
-    // });
-
-    // const res = await loadUser();
     setUser(res);
 
     setIsAuthenticated(true);

@@ -25,11 +25,6 @@ const Login: React.FC = () => {
       await loadUser(),
     ]);
 
-    console.log(res);
-
-    // await loginUser(personalNumber);
-
-    // const res = await loadUser();
     setUser(res);
 
     setIsAuthenticated(true);

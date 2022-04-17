@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      {isAuthenticated || token ? (
+      {isAuthenticated || localStorage.getItem('auth-token') ? (
         <>
           <Menu
             theme='dark'
