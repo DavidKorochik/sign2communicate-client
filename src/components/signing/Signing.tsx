@@ -1,14 +1,18 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { Col, Card } from 'antd';
 import moment from 'moment';
 
 interface Props {
   description: string;
   signingDate: string | null | moment.Moment;
+  returningDate: string | null | moment.Moment;
 }
 
-const Signing: React.FC<Props> = ({ description, signingDate }) => {
+const Signing: React.FC<Props> = ({
+  description,
+  signingDate,
+  returningDate,
+}) => {
   return (
     <>
       <Col span={12}>
@@ -18,8 +22,10 @@ const Signing: React.FC<Props> = ({ description, signingDate }) => {
           extra={<a href='#'>עוד</a>}
           style={{ width: 350, textAlign: 'center' }}
         >
-          <p>{description}</p>
-          <p>{signingDate}</p>
+          <p style={{ fontWeight: 'bold', fontSize: '17px' }}>{description}</p>
+          <p>
+            {returningDate} - {signingDate}
+          </p>
         </Card>
       </Col>
     </>
