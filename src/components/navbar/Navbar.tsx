@@ -1,9 +1,7 @@
-import * as React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Menu } from 'antd';
-import { NavLink } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { handleAuthenticatedNavbarSelectedKeys } from './keys/auth-keys';
-import { handleNotAuthenticatedNavbarSelectedKeys } from './keys/unauth-keys';
+import { Location, NavLink, useLocation } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { logoutUser } from '../../utils/users/recoilFunctions';
 import {
   RocketOutlined,
@@ -20,13 +18,22 @@ import {
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
+  let location: Location = useLocation();
+
   const token = useRecoilValue(tokenState);
-  const isAuthenticated = useRecoilValue(isAuthenticatedState);
+
+  const [isAuthenticated, setIsAuthenticated] =
+    useRecoilState(isAuthenticatedState);
+
+  useLayoutEffect(() => {
+    if (!localStorage.getItem('auth-token')) {
+      setIsAuthenticated(false);
+    }
+  }, []);
 
   const handleLogoutUser = () => {
     logoutUser();
-
-    window.location.reload();
+    setIsAuthenticated(false);
   };
 
   return (
@@ -36,22 +43,23 @@ const Navbar: React.FC = () => {
           <Menu
             theme='dark'
             mode='inline'
-            defaultSelectedKeys={handleAuthenticatedNavbarSelectedKeys()}
+            defaultSelectedKeys={['/signings']}
+            selectedKeys={[location.pathname]}
             style={{ marginTop: '20px', fontSize: '15px' }}
           >
-            <Menu.Item key='1' icon={<HomeOutlined />}>
+            <Menu.Item key='/' icon={<HomeOutlined />}>
               <NavLink to='/'>בית</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='2' icon={<FolderOpenOutlined />}>
+            <Menu.Item key='/signings' icon={<FolderOpenOutlined />}>
               <NavLink to='/signings'>החתימות שלי</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='3' icon={<UploadOutlined />}>
+            <Menu.Item key='/create' icon={<UploadOutlined />}>
               <NavLink to='/create'>בקשת החתמה</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='4' icon={<LoginOutlined />}>
+            <Menu.Item key='/login' icon={<LoginOutlined />}>
               <NavLink onClick={() => handleLogoutUser()} to='/login'>
                 צא מהמערכת
               </NavLink>
@@ -66,18 +74,19 @@ const Navbar: React.FC = () => {
           <Menu
             theme='dark'
             mode='inline'
-            defaultSelectedKeys={handleNotAuthenticatedNavbarSelectedKeys()}
+            defaultSelectedKeys={['/login']}
+            selectedKeys={[location.pathname]}
             style={{ marginTop: '20px', fontSize: '15px' }}
           >
-            <Menu.Item key='1' icon={<HomeOutlined />}>
+            <Menu.Item key='/' icon={<HomeOutlined />}>
               <NavLink to='/'>בית</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='2' icon={<LoginOutlined />}>
+            <Menu.Item key='/login' icon={<LoginOutlined />}>
               <NavLink to='/login'>כנס למערכת</NavLink>
             </Menu.Item>
 
-            <Menu.Item key='3' icon={<UserAddOutlined />}>
+            <Menu.Item key='/signup' icon={<UserAddOutlined />}>
               <NavLink to='/signup'>הירשם למרכת</NavLink>
             </Menu.Item>
           </Menu>
