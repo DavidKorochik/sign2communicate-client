@@ -17,6 +17,7 @@ import {
   TreeSelect,
   Space,
   TimePicker,
+  notification,
 } from 'antd';
 
 const { TextArea } = Input;
@@ -62,6 +63,25 @@ const AddSigning: React.FC = () => {
     }, 1500);
   };
 
+  const openAddSigningNotification = () => {
+    notification.success({
+      message: `!הוספת החתמה בהצלחה`,
+      description: '.תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
+    });
+  };
+
+  const openFailedAddSigningNotification = () => {
+    notification.error({
+      message: 'ההחתמה אינה נוספה בהצלחה',
+      description: 'אנא וודא/י שמילאת את כל הפרטים על ההחתמה',
+    });
+  };
+
+  const isInputsEmpty =
+    !equipment || !signingDate || !returnDate || !signingTime || !description
+      ? true
+      : false;
+
   return (
     <motion.div
       className='form-main'
@@ -83,6 +103,7 @@ const AddSigning: React.FC = () => {
         <Form onSubmitCapture={handleSubmit} layout='horizontal'>
           <Form.Item style={{ width: '20%', textAlign: 'right' }}>
             <TreeSelect
+              aria-require={true}
               value={equipment}
               onChange={(equipmentData: string[]) =>
                 setEquipment(equipmentData)
@@ -102,6 +123,7 @@ const AddSigning: React.FC = () => {
           <Space direction='horizontal'>
             <Form.Item style={{ textAlign: 'right' }}>
               <DatePicker
+                aria-require={true}
                 value={returnDate}
                 format={dateFormatList}
                 onChange={(date: moment.Moment | null): void =>
@@ -113,6 +135,7 @@ const AddSigning: React.FC = () => {
 
             <Form.Item style={{ textAlign: 'right' }}>
               <DatePicker
+                aria-require={true}
                 value={signingDate}
                 format={dateFormatList}
                 onChange={(date: moment.Moment | null): void =>
@@ -125,6 +148,7 @@ const AddSigning: React.FC = () => {
 
           <Form.Item style={{ textAlign: 'right' }}>
             <TimePicker
+              aria-require={true}
               value={signingTime}
               onChange={(time: moment.Moment | null): void =>
                 setSigningTime(time)
@@ -136,6 +160,7 @@ const AddSigning: React.FC = () => {
 
           <Form.Item>
             <TextArea
+              required
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder='הערות'
@@ -145,7 +170,15 @@ const AddSigning: React.FC = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type='primary' htmlType='submit'>
+            <Button
+              onClick={() =>
+                isInputsEmpty
+                  ? openFailedAddSigningNotification()
+                  : openAddSigningNotification()
+              }
+              type='primary'
+              htmlType='submit'
+            >
               שלח בקשה
             </Button>
           </Form.Item>

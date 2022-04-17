@@ -24,7 +24,7 @@ const Signing: React.FC<Props> = ({
         >
           <p style={{ fontWeight: 'bold', fontSize: '17px' }}>{description}</p>
           <p>
-            {returningDate} - {signingDate}
+            {signingDate} - {returningDate}
           </p>
         </Card>
       </Col>
