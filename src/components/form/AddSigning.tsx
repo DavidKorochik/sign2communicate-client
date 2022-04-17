@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { equipmentData } from '../../utils/equipmentData';
@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { addSigning } from '../../utils/signings/recoilFunctions';
 import { signingState, loadingState } from '../../recoil/signings/atoms/atoms';
 import type { ISigning } from '../../interfaces/signing/types';
+import Spinner from '../../utils/spinner/Spinner';
 import moment from 'moment';
 import './AddSigning.css';
 import {
@@ -33,7 +34,13 @@ const AddSigning: React.FC = () => {
   const [signingTime, setSigningTime] = useState<moment.Moment | null>(null);
   const [description, setDescription] = useState<string>('');
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   const handleSubmit = async (): Promise<void> => {
+    setLoading(true);
+
     const res = await addSigning({
       equipment,
       signingDate: moment(signingDate).format('MM/DD/YYYY'),
@@ -41,8 +48,6 @@ const AddSigning: React.FC = () => {
       time: moment(signingTime).format('HH:mm'),
       description,
     });
-
-    console.log(res);
 
     setSigningData(res);
 
@@ -52,7 +57,9 @@ const AddSigning: React.FC = () => {
     setSigningTime(null);
     setDescription('');
 
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
   };
 
   return (
@@ -68,74 +75,82 @@ const AddSigning: React.FC = () => {
         הוסף בקשה לחתימה
       </h1>
 
-      <Form onSubmitCapture={handleSubmit} layout='horizontal'>
-        <Form.Item style={{ width: '20%', textAlign: 'right' }}>
-          <TreeSelect
-            value={equipment}
-            onChange={(equipmentData: string[]) => setEquipment(equipmentData)}
-            showSearch
-            style={{ width: '100%' }}
-            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-            placeholder='הכנס/י את רשימת הציוד שהנך צריך/ה'
-            allowClear
-            multiple
-            treeDefaultExpandAll
-            treeCheckable={true}
-            treeData={equipmentData}
-          />
-        </Form.Item>
-
-        <Space direction='horizontal'>
-          <Form.Item style={{ textAlign: 'right' }}>
-            <DatePicker
-              value={returnDate}
-              format={dateFormatList}
-              onChange={(date: moment.Moment | null): void =>
-                setReturnDate(date)
+      {loading ? (
+        <>
+          <Spinner />
+        </>
+      ) : (
+        <Form onSubmitCapture={handleSubmit} layout='horizontal'>
+          <Form.Item style={{ width: '20%', textAlign: 'right' }}>
+            <TreeSelect
+              value={equipment}
+              onChange={(equipmentData: string[]) =>
+                setEquipment(equipmentData)
               }
-              placeholder='תאריך ההחזרה'
+              showSearch
+              style={{ width: '100%' }}
+              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+              placeholder='הכנס/י את רשימת הציוד שהנך צריך/ה'
+              allowClear
+              multiple
+              treeDefaultExpandAll
+              treeCheckable={true}
+              treeData={equipmentData}
             />
           </Form.Item>
 
+          <Space direction='horizontal'>
+            <Form.Item style={{ textAlign: 'right' }}>
+              <DatePicker
+                value={returnDate}
+                format={dateFormatList}
+                onChange={(date: moment.Moment | null): void =>
+                  setReturnDate(date)
+                }
+                placeholder='תאריך ההחזרה'
+              />
+            </Form.Item>
+
+            <Form.Item style={{ textAlign: 'right' }}>
+              <DatePicker
+                value={signingDate}
+                format={dateFormatList}
+                onChange={(date: moment.Moment | null): void =>
+                  setSigningDate(date)
+                }
+                placeholder='תאריך החתימה'
+              />
+            </Form.Item>
+          </Space>
+
           <Form.Item style={{ textAlign: 'right' }}>
-            <DatePicker
-              value={signingDate}
-              format={dateFormatList}
-              onChange={(date: moment.Moment | null): void =>
-                setSigningDate(date)
+            <TimePicker
+              value={signingTime}
+              onChange={(time: moment.Moment | null): void =>
+                setSigningTime(time)
               }
-              placeholder='תאריך החתימה'
+              format={format}
+              placeholder='שעת ההחתמה'
             />
           </Form.Item>
-        </Space>
 
-        <Form.Item style={{ textAlign: 'right' }}>
-          <TimePicker
-            value={signingTime}
-            onChange={(time: moment.Moment | null): void =>
-              setSigningTime(time)
-            }
-            format={format}
-            placeholder='שעת ההחתמה'
-          />
-        </Form.Item>
+          <Form.Item>
+            <TextArea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder='הערות'
+              style={{ textAlign: 'right' }}
+              rows={4}
+            />
+          </Form.Item>
 
-        <Form.Item>
-          <TextArea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder='הערות'
-            style={{ textAlign: 'right' }}
-            rows={4}
-          />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type='primary' htmlType='submit'>
-            שלח בקשה
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <Button type='primary' htmlType='submit'>
+              שלח בקשה
+            </Button>
+          </Form.Item>
+        </Form>
+      )}
     </motion.div>
   );
 };
