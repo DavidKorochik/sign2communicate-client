@@ -131,7 +131,7 @@ const UpdateSigningModal: React.FC<Props> = ({
           onChange={(date: moment.Moment | null): void =>
             setEditSigningDate(date)
           }
-          value={moment(editSigningDate)}
+          value={moment(editSigningDate, 'DD/MM/YYYY')}
           format={dateFormatList}
           style={{ marginBottom: '10px', width: '100%' }}
         />
@@ -139,7 +139,7 @@ const UpdateSigningModal: React.FC<Props> = ({
           onChange={(date: moment.Moment | null): void =>
             setEditReturnDate(date)
           }
-          value={moment(editReturnDate)}
+          value={moment(editReturnDate, 'DD/MM/YYYY')}
           format={dateFormatList}
           style={{ marginBottom: '10px', width: '100%' }}
         />
@@ -147,7 +147,7 @@ const UpdateSigningModal: React.FC<Props> = ({
           onChange={(time: moment.Moment | null): void =>
             setEditSigningTime(time)
           }
-          value={moment(editSigningTime)}
+          value={moment(editSigningTime, 'HH:mm')}
           format={format}
           style={{ marginBottom: '10px', width: '100%' }}
         />
