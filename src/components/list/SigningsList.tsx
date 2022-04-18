@@ -3,13 +3,13 @@ import { loadingState } from '../../recoil/signings/atoms/atoms';
 import { useRecoilState } from 'recoil';
 import { Row, notification } from 'antd';
 import Signing from '../signing/Signing';
-import type { ISigning } from '../../interfaces/signing/types';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import moment from 'moment';
 import './SigningsList.css';
 import Spinner from '../../utils/spinner/Spinner';
 import NoSignings from './no-signings/NoSignings';
+import type { ISigning } from '../../interfaces/signing/types';
 import {
   deleteSigning,
   getSignings,
@@ -61,9 +61,8 @@ const SigningsList: React.FC = () => {
           ) : (
             <Row justify='space-around'>
               {signingsListState.map((signing) => (
-                <div style={{ margin: '40px' }}>
+                <div key={signing.id} style={{ margin: '40px' }}>
                   <Signing
-                    key={signing.id}
                     id={signing.id}
                     description={signing.description}
                     signingDate={moment(signing.signingDate).format(

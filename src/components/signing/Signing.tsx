@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Col, Card } from 'antd';
 import moment from 'moment';
+import { motion } from 'framer-motion';
+import './Signing.css';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -22,17 +24,34 @@ const Signing: React.FC<Props> = ({
   id,
   handleDeleteSigning,
 }) => {
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
+  console.log(deleteClicked);
+
   return (
-    <>
+    <motion.div
+      animate={
+        deleteClicked
+          ? {
+              scale: 0,
+              transition: { ease: 'easeOut', duration: 1 },
+            }
+          : ''
+      }
+    >
       <Col span={4}>
         <Card
+          className={`${deleteClicked ? 'fade-out' : ''}`}
           size='default'
           title='החתמה'
           style={{ width: 350, textAlign: 'center' }}
           actions={[
             <DeleteOutlined
               key='delete'
-              onClick={() => handleDeleteSigning(id)}
+              onClick={() => {
+                setDeleteClicked(!deleteClicked);
+                handleDeleteSigning(id);
+              }}
             />,
             <EditOutlined key='edit' />,
             <InfoCircleOutlined key='info' />,
@@ -44,7 +63,7 @@ const Signing: React.FC<Props> = ({
           </p>
         </Card>
       </Col>
-    </>
+    </motion.div>
   );
 };
 

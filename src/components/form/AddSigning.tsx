@@ -104,7 +104,6 @@ const AddSigning: React.FC = () => {
           <Form onSubmitCapture={handleSubmit} layout='horizontal'>
             <Form.Item style={{ width: '20%', textAlign: 'right' }}>
               <TreeSelect
-                aria-require={true}
                 value={equipment}
                 onChange={(equipmentData: string[]) =>
                   setEquipment(equipmentData)
@@ -124,7 +123,6 @@ const AddSigning: React.FC = () => {
             <Space direction='horizontal'>
               <Form.Item style={{ textAlign: 'right' }}>
                 <DatePicker
-                  aria-require={true}
                   value={returnDate}
                   format={dateFormatList}
                   onChange={(date: moment.Moment | null): void =>
@@ -136,7 +134,6 @@ const AddSigning: React.FC = () => {
 
               <Form.Item style={{ textAlign: 'right' }}>
                 <DatePicker
-                  aria-require={true}
                   value={signingDate}
                   format={dateFormatList}
                   onChange={(date: moment.Moment | null): void =>
@@ -149,7 +146,6 @@ const AddSigning: React.FC = () => {
 
             <Form.Item style={{ textAlign: 'right' }}>
               <TimePicker
-                aria-require={true}
                 value={signingTime}
                 onChange={(time: moment.Moment | null): void =>
                   setSigningTime(time)
