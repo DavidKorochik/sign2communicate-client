@@ -1,8 +1,12 @@
-import React, { useLayoutEffect } from 'react';
-import { Menu } from 'antd';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { Menu, Avatar } from 'antd';
 import { Location, NavLink, useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { logoutUser } from '../../utils/users/recoilFunctions';
+import { useRecoilState } from 'recoil';
+import { loadUser, logoutUser } from '../../utils/users/recoilFunctions';
+import {
+  isAuthenticatedState,
+  userState,
+} from '../../recoil/users/atoms/atoms';
 import {
   RocketOutlined,
   UploadOutlined,
@@ -11,24 +15,26 @@ import {
   LoginOutlined,
   UserAddOutlined,
 } from '@ant-design/icons';
-import {
-  tokenState,
-  isAuthenticatedState,
-} from '../../recoil/users/atoms/atoms';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
   let location: Location = useLocation();
 
-  const token = useRecoilValue(tokenState);
-
   const [isAuthenticated, setIsAuthenticated] =
     useRecoilState(isAuthenticatedState);
+  const [user, setUser] = useRecoilState(userState);
 
   useLayoutEffect(() => {
     if (!localStorage.getItem('auth-token')) {
       setIsAuthenticated(false);
     }
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const res = await loadUser();
+      setUser(res);
+    })();
   }, []);
 
   const handleLogoutUser = () => {
@@ -65,6 +71,17 @@ const Navbar: React.FC = () => {
               </NavLink>
             </Menu.Item>
           </Menu>
+          <div className='avatar'>
+            <Avatar
+              size={50}
+              style={{
+                fontWeight: '600',
+                backgroundColor: '#1890FF',
+              }}
+            >
+              {user?.name.split(' ')[0]}
+            </Avatar>
+          </div>
           <div className='logo'>
             <RocketOutlined />
           </div>
