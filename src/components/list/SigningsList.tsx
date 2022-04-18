@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import {
-  deleteSigning,
-  getSignings,
-} from '../../utils/signings/recoilFunctions';
-import { loadingState, signingState } from '../../recoil/signings/atoms/atoms';
+import { loadingState } from '../../recoil/signings/atoms/atoms';
 import { useRecoilState } from 'recoil';
-import { Row } from 'antd';
+import { Row, notification } from 'antd';
 import Signing from '../signing/Signing';
 import type { ISigning } from '../../interfaces/signing/types';
 import { motion } from 'framer-motion';
@@ -13,11 +9,15 @@ import { pageAnimation } from '../../utils/animations';
 import moment from 'moment';
 import './SigningsList.css';
 import Spinner from '../../utils/spinner/Spinner';
+import NoSignings from './no-signings/NoSignings';
+import {
+  deleteSigning,
+  getSignings,
+} from '../../utils/signings/recoilFunctions';
 
 const SigningsList: React.FC = () => {
   const [signingsListState, setSigningsListState] = useState<ISigning[]>([]);
   const [loading, setLoading] = useRecoilState<boolean>(loadingState);
-  const [signings, setSignings] = useRecoilState(signingState);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +34,11 @@ const SigningsList: React.FC = () => {
   const handleDeleteSigning = async (id: string | undefined): Promise<void> => {
     const res = await deleteSigning(id);
     setSigningsListState(res);
+
+    notification.success({
+      message: `!הסרת ההחתמה הושלמה בהצלחה`,
+      description: 'ההחתמה עליה לחצת על מנת להסירה הוסרה בהצלחה',
+    });
   };
 
   return (
@@ -51,22 +56,28 @@ const SigningsList: React.FC = () => {
           animate={pageAnimation.enter}
           exit={pageAnimation.exit}
         >
-          <Row justify='space-around'>
-            {signingsListState.map((signing) => (
-              <div style={{ margin: '40px' }}>
-                <Signing
-                  key={signing.id}
-                  id={signing.id}
-                  description={signing.description}
-                  signingDate={moment(signing.signingDate).format('DD/MM/YYYY')}
-                  returningDate={moment(signing.returningDate).format(
-                    'DD/MM/YYYY'
-                  )}
-                  handleDeleteSigning={handleDeleteSigning}
-                />
-              </div>
-            ))}
-          </Row>
+          {signingsListState.length === 0 ? (
+            <NoSignings />
+          ) : (
+            <Row justify='space-around'>
+              {signingsListState.map((signing) => (
+                <div style={{ margin: '40px' }}>
+                  <Signing
+                    key={signing.id}
+                    id={signing.id}
+                    description={signing.description}
+                    signingDate={moment(signing.signingDate).format(
+                      'DD/MM/YYYY'
+                    )}
+                    returningDate={moment(signing.returningDate).format(
+                      'DD/MM/YYYY'
+                    )}
+                    handleDeleteSigning={handleDeleteSigning}
+                  />
+                </div>
+              ))}
+            </Row>
+          )}
         </motion.div>
       )}
     </>
