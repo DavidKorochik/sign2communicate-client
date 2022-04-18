@@ -4,8 +4,8 @@ import moment from 'moment';
 import './SigningContentModal.css';
 
 interface Props {
-  visible: boolean;
-  setIsModalVisible: (bool: boolean) => void;
+  signingContentVisible: boolean;
+  setIsSigningContentModalVisible: (bool: boolean) => void;
   time: string | null | moment.Moment;
   equipment: string[];
   description: string;
@@ -14,8 +14,8 @@ interface Props {
 }
 
 const SigningContentModal: React.FC<Props> = ({
-  visible,
-  setIsModalVisible,
+  signingContentVisible,
+  setIsSigningContentModalVisible,
   equipment,
   description,
   signingDate,
@@ -27,11 +27,11 @@ const SigningContentModal: React.FC<Props> = ({
   console.log(equipmentToStringArr);
 
   const handleOk = () => {
-    setIsModalVisible(!visible);
+    setIsSigningContentModalVisible(!signingContentVisible);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(!visible);
+    setIsSigningContentModalVisible(!signingContentVisible);
   };
 
   return (
@@ -43,7 +43,7 @@ const SigningContentModal: React.FC<Props> = ({
         okText={'ר'}
         cancelText={'צא'}
         title='פרטי ההחתמה'
-        visible={visible}
+        visible={signingContentVisible}
       >
         <p>{description}</p>
         <p>{equipmentToStringArr}</p>
