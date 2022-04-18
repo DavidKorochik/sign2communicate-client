@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Card } from 'antd';
+import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import moment from 'moment';
 import { motion } from 'framer-motion';
 import './Signing.css';
@@ -15,6 +16,8 @@ interface Props {
   returningDate: string | null | moment.Moment;
   id: string | undefined;
   handleDeleteSigning: (id: string | undefined) => Promise<void>;
+  time: string | null | moment.Moment;
+  equipment: string[];
 }
 
 const Signing: React.FC<Props> = ({
@@ -23,10 +26,11 @@ const Signing: React.FC<Props> = ({
   returningDate,
   id,
   handleDeleteSigning,
+  time,
+  equipment,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
-
-  console.log(deleteClicked);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <motion.div
@@ -54,7 +58,10 @@ const Signing: React.FC<Props> = ({
               }}
             />,
             <EditOutlined key='edit' />,
-            <InfoCircleOutlined key='info' />,
+            <InfoCircleOutlined
+              onClick={() => setIsModalVisible(!isModalVisible)}
+              key='info'
+            />,
           ]}
         >
           <p style={{ fontWeight: 'bold', fontSize: '17px' }}>{description}</p>
@@ -63,6 +70,19 @@ const Signing: React.FC<Props> = ({
           </p>
         </Card>
       </Col>
+      {isModalVisible ? (
+        <SigningContentModal
+          setIsModalVisible={setIsModalVisible}
+          visible={isModalVisible}
+          time={time}
+          equipment={equipment}
+          description={description}
+          signingDate={signingDate}
+          returningDate={returningDate}
+        />
+      ) : (
+        ''
+      )}
     </motion.div>
   );
 };

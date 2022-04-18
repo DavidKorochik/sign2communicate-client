@@ -72,6 +72,8 @@ const SigningsList: React.FC = () => {
                       'DD/MM/YYYY'
                     )}
                     handleDeleteSigning={handleDeleteSigning}
+                    equipment={signing.equipment}
+                    time={signing.time}
                   />
                 </div>
               ))}
