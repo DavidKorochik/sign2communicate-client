@@ -83,108 +83,110 @@ const AddSigning: React.FC = () => {
       : false;
 
   return (
-    <motion.div
-      className='form-main'
-      transition={{ type: 'linear' }}
-      variants={pageAnimation}
-      initial={pageAnimation.hidden}
-      animate={pageAnimation.enter}
-      exit={pageAnimation.exit}
-    >
-      <h1 style={{ color: 'gray', marginBottom: '2%', fontWeight: 'bold' }}>
-        הוסף בקשה לחתימה
-      </h1>
-
+    <>
       {loading ? (
         <>
           <Spinner />
         </>
       ) : (
-        <Form onSubmitCapture={handleSubmit} layout='horizontal'>
-          <Form.Item style={{ width: '20%', textAlign: 'right' }}>
-            <TreeSelect
-              aria-require={true}
-              value={equipment}
-              onChange={(equipmentData: string[]) =>
-                setEquipment(equipmentData)
-              }
-              showSearch
-              style={{ width: '100%' }}
-              dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-              placeholder='הכנס/י את רשימת הציוד שהנך צריך/ה'
-              allowClear
-              multiple
-              treeDefaultExpandAll
-              treeCheckable={true}
-              treeData={equipmentData}
-            />
-          </Form.Item>
+        <motion.div
+          className='form-main'
+          transition={{ type: 'linear' }}
+          variants={pageAnimation}
+          initial={pageAnimation.hidden}
+          animate={pageAnimation.enter}
+          exit={pageAnimation.exit}
+        >
+          <h1 style={{ color: 'gray', marginBottom: '2%', fontWeight: 'bold' }}>
+            הוסף בקשה לחתימה
+          </h1>
 
-          <Space direction='horizontal'>
-            <Form.Item style={{ textAlign: 'right' }}>
-              <DatePicker
+          <Form onSubmitCapture={handleSubmit} layout='horizontal'>
+            <Form.Item style={{ width: '20%', textAlign: 'right' }}>
+              <TreeSelect
                 aria-require={true}
-                value={returnDate}
-                format={dateFormatList}
-                onChange={(date: moment.Moment | null): void =>
-                  setReturnDate(date)
+                value={equipment}
+                onChange={(equipmentData: string[]) =>
+                  setEquipment(equipmentData)
                 }
-                placeholder='תאריך ההחזרה'
+                showSearch
+                style={{ width: '100%' }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                placeholder='הכנס/י את רשימת הציוד שהנך צריך/ה'
+                allowClear
+                multiple
+                treeDefaultExpandAll
+                treeCheckable={true}
+                treeData={equipmentData}
               />
             </Form.Item>
 
+            <Space direction='horizontal'>
+              <Form.Item style={{ textAlign: 'right' }}>
+                <DatePicker
+                  aria-require={true}
+                  value={returnDate}
+                  format={dateFormatList}
+                  onChange={(date: moment.Moment | null): void =>
+                    setReturnDate(date)
+                  }
+                  placeholder='תאריך ההחזרה'
+                />
+              </Form.Item>
+
+              <Form.Item style={{ textAlign: 'right' }}>
+                <DatePicker
+                  aria-require={true}
+                  value={signingDate}
+                  format={dateFormatList}
+                  onChange={(date: moment.Moment | null): void =>
+                    setSigningDate(date)
+                  }
+                  placeholder='תאריך החתימה'
+                />
+              </Form.Item>
+            </Space>
+
             <Form.Item style={{ textAlign: 'right' }}>
-              <DatePicker
+              <TimePicker
                 aria-require={true}
-                value={signingDate}
-                format={dateFormatList}
-                onChange={(date: moment.Moment | null): void =>
-                  setSigningDate(date)
+                value={signingTime}
+                onChange={(time: moment.Moment | null): void =>
+                  setSigningTime(time)
                 }
-                placeholder='תאריך החתימה'
+                format={format}
+                placeholder='שעת ההחתמה'
               />
             </Form.Item>
-          </Space>
 
-          <Form.Item style={{ textAlign: 'right' }}>
-            <TimePicker
-              aria-require={true}
-              value={signingTime}
-              onChange={(time: moment.Moment | null): void =>
-                setSigningTime(time)
-              }
-              format={format}
-              placeholder='שעת ההחתמה'
-            />
-          </Form.Item>
+            <Form.Item>
+              <TextArea
+                required
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder='הערות'
+                style={{ textAlign: 'right' }}
+                rows={4}
+              />
+            </Form.Item>
 
-          <Form.Item>
-            <TextArea
-              required
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder='הערות'
-              style={{ textAlign: 'right' }}
-              rows={4}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              onClick={() =>
-                isInputsEmpty
-                  ? openFailedAddSigningNotification()
-                  : openAddSigningNotification()
-              }
-              type='primary'
-              htmlType='submit'
-            >
-              שלח בקשה
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Button
+                onClick={() =>
+                  isInputsEmpty
+                    ? openFailedAddSigningNotification()
+                    : openAddSigningNotification()
+                }
+                type='primary'
+                htmlType='submit'
+              >
+                שלח בקשה
+              </Button>
+            </Form.Item>
+          </Form>
+        </motion.div>
       )}
-    </motion.div>
+    </>
   );
 };
 
