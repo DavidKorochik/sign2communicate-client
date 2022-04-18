@@ -66,7 +66,7 @@ const AddSigning: React.FC = () => {
   const openAddSigningNotification = () => {
     notification.success({
       message: `!הוספת החתמה בהצלחה`,
-      description: '.תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
+      description: 'תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
     });
   };
 
