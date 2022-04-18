@@ -1,6 +1,9 @@
-import { useLayoutEffect, useEffect, useState } from 'react';
-import { getSignings } from '../../utils/signings/recoilFunctions';
-import { loadingState } from '../../recoil/signings/atoms/atoms';
+import { useEffect, useState } from 'react';
+import {
+  deleteSigning,
+  getSignings,
+} from '../../utils/signings/recoilFunctions';
+import { loadingState, signingState } from '../../recoil/signings/atoms/atoms';
 import { useRecoilState } from 'recoil';
 import { Row } from 'antd';
 import Signing from '../signing/Signing';
@@ -14,10 +17,9 @@ import Spinner from '../../utils/spinner/Spinner';
 const SigningsList: React.FC = () => {
   const [signingsListState, setSigningsListState] = useState<ISigning[]>([]);
   const [loading, setLoading] = useRecoilState<boolean>(loadingState);
+  const [signings, setSignings] = useRecoilState(signingState);
 
-  // useEffect(() => {}, [signingsListState]);
-
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       setLoading(true);
       const res = await getSignings();
@@ -27,7 +29,12 @@ const SigningsList: React.FC = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
-  }, [setSigningsListState]);
+  }, []);
+
+  const handleDeleteSigning = async (id: string | undefined): Promise<void> => {
+    const res = await deleteSigning(id);
+    setSigningsListState(res);
+  };
 
   return (
     <>
@@ -44,16 +51,18 @@ const SigningsList: React.FC = () => {
           animate={pageAnimation.enter}
           exit={pageAnimation.exit}
         >
-          <Row>
+          <Row justify='space-around'>
             {signingsListState.map((signing) => (
               <div style={{ margin: '40px' }}>
                 <Signing
                   key={signing.id}
+                  id={signing.id}
                   description={signing.description}
                   signingDate={moment(signing.signingDate).format('DD/MM/YYYY')}
                   returningDate={moment(signing.returningDate).format(
                     'DD/MM/YYYY'
                   )}
+                  handleDeleteSigning={handleDeleteSigning}
                 />
               </div>
             ))}

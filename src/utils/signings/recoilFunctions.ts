@@ -25,9 +25,10 @@ export const getSignings = async () => {
   }
 };
 
-export const deleteSigning = async (id: string | undefined): Promise<void> => {
+export const deleteSigning = async (id: string | undefined) => {
   try {
-    await axios.delete(`/api/signing/${id}`);
+    const res = await axios.delete(`/api/signing/${id}`);
+    return res.data;
   } catch (err: any) {
     console.error(err.response.data.error);
   }
