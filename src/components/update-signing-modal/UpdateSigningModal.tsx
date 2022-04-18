@@ -32,7 +32,7 @@ interface Props {
   setEditEquipment: (equipment: string[]) => void;
   setEditSigningDate: (date: string | moment.Moment | null) => void;
   setEditReturnDate: (date: string | moment.Moment | null) => void;
-  setEditSigningTime: (date: string | moment.Moment | null) => void;
+  setEditSigningTime: (time: string | moment.Moment | null) => void;
   id: string | undefined;
   setSigningsListState: (signings: ISigning[]) => void;
   signingsListState: ISigning[];
@@ -80,7 +80,7 @@ const UpdateSigningModal: React.FC<Props> = ({
       description: editDescription,
       signingDate: moment(editSigningDate),
       returningDate: moment(editReturnDate),
-      time: moment(editSigningTime),
+      time: moment(editSigningTime).format('HH:mm'),
       equipment: editEquipment,
     });
 
