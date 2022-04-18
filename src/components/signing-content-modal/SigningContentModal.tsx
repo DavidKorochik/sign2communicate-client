@@ -24,8 +24,6 @@ const SigningContentModal: React.FC<Props> = ({
 }) => {
   const equipmentToStringArr = equipment.join(', ');
 
-  console.log(equipmentToStringArr);
-
   const handleOk = () => {
     setIsSigningContentModalVisible(!signingContentVisible);
   };

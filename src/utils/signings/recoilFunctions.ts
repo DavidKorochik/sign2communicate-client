@@ -25,6 +25,15 @@ export const getSignings = async () => {
   }
 };
 
+export const updateSigning = async (signing: ISigning) => {
+  try {
+    const res = await axios.put(`/api/signing/${signing.id}`, signing);
+    return res.data;
+  } catch (err: any) {
+    console.error(err.response.data.error);
+  }
+};
+
 export const deleteSigning = async (id: string | undefined) => {
   try {
     const res = await axios.delete(`/api/signing/${id}`);

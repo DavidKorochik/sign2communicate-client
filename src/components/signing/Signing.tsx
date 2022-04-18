@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Card } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import moment from 'moment';
 import { motion } from 'framer-motion';
+import UpdateSigningModal from '../update-signing-modal/UpdateSigningModal';
+import type { ISigning } from '../../interfaces/signing/types';
 import './Signing.css';
 import {
   EditOutlined,
@@ -18,6 +20,8 @@ interface Props {
   handleDeleteSigning: (id: string | undefined) => Promise<void>;
   time: string | null | moment.Moment;
   equipment: string[];
+  setSigningsListState: (signings: ISigning[]) => void;
+  signingsListState: ISigning[];
 }
 
 const Signing: React.FC<Props> = ({
@@ -28,9 +32,26 @@ const Signing: React.FC<Props> = ({
   handleDeleteSigning,
   time,
   equipment,
+  setSigningsListState,
+  signingsListState,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSigningContentModalVisible, setIsSigningContentModalVisible] =
+    useState(false);
+  const [isUpdateSigningModalVisible, setIsUpdateSigningModalVisible] =
+    useState(false);
+  const [current, setCurrent] = useState<ISigning | null>(null);
+  const [editEquipment, setEditEquipment] = useState<string[]>([]);
+  const [editSigningDate, setEditSigningDate] = useState<
+    string | moment.Moment | null
+  >(null);
+  const [editReturnDate, setEditReturnDate] = useState<
+    string | moment.Moment | null
+  >(null);
+  const [editSigningTime, setEditSigningTime] = useState<
+    string | moment.Moment | null
+  >(null);
+  const [editDescription, setEditDescription] = useState<string>('');
 
   return (
     <motion.div
@@ -57,9 +78,24 @@ const Signing: React.FC<Props> = ({
                 handleDeleteSigning(id);
               }}
             />,
-            <EditOutlined key='edit' />,
+            <EditOutlined
+              onClick={() => {
+                setIsUpdateSigningModalVisible(!isUpdateSigningModalVisible);
+                setCurrent({
+                  description,
+                  equipment,
+                  returningDate,
+                  signingDate,
+                  time,
+                  id,
+                });
+              }}
+              key='edit'
+            />,
             <InfoCircleOutlined
-              onClick={() => setIsModalVisible(!isModalVisible)}
+              onClick={() =>
+                setIsSigningContentModalVisible(!isSigningContentModalVisible)
+              }
               key='info'
             />,
           ]}
@@ -70,15 +106,38 @@ const Signing: React.FC<Props> = ({
           </p>
         </Card>
       </Col>
-      {isModalVisible ? (
+      {isSigningContentModalVisible ? (
         <SigningContentModal
-          setIsModalVisible={setIsModalVisible}
-          visible={isModalVisible}
+          setIsSigningContentModalVisible={setIsSigningContentModalVisible}
+          signingContentVisible={isSigningContentModalVisible}
           time={time}
           equipment={equipment}
           description={description}
           signingDate={signingDate}
           returningDate={returningDate}
+        />
+      ) : (
+        ''
+      )}
+      {isUpdateSigningModalVisible ? (
+        <UpdateSigningModal
+          setIsUpdateSigningModalVisible={setIsUpdateSigningModalVisible}
+          updateSigningVisible={isUpdateSigningModalVisible}
+          current={current}
+          setCurrent={setCurrent}
+          editDescription={editDescription}
+          editEquipment={editEquipment}
+          editSigningDate={editSigningDate}
+          editSigningTime={editSigningTime}
+          editReturnDate={editReturnDate}
+          setEditDescription={setEditDescription}
+          setEditEquipment={setEditEquipment}
+          setEditSigningDate={setEditSigningDate}
+          setEditSigningTime={setEditSigningTime}
+          setEditReturnDate={setEditReturnDate}
+          id={id}
+          setSigningsListState={setSigningsListState}
+          signingsListState={signingsListState}
         />
       ) : (
         ''
