@@ -16,7 +16,7 @@ import {
 const { TextArea } = Input;
 
 const format = 'HH:mm';
-const dateFormatList = ['DD/MM/YYYY'];
+const dateFormatList = 'DD/MM/YYYY';
 
 interface Props {
   setIsUpdateSigningModalVisible: (bool: boolean) => void;
@@ -25,14 +25,14 @@ interface Props {
   setCurrent: (signing: ISigning | null) => void;
   editDescription: string;
   editEquipment: string[];
-  editSigningDate: string | null | moment.Moment;
-  editReturnDate: string | null | moment.Moment;
-  editSigningTime: string | null | moment.Moment;
+  editSigningDate: null | moment.Moment | Date;
+  editReturnDate: null | moment.Moment | Date;
+  editSigningTime: null | moment.Moment;
   setEditDescription: (description: string) => void;
   setEditEquipment: (equipment: string[]) => void;
-  setEditSigningDate: (date: string | moment.Moment | null) => void;
-  setEditReturnDate: (date: string | moment.Moment | null) => void;
-  setEditSigningTime: (time: string | moment.Moment | null) => void;
+  setEditSigningDate: (date: moment.Moment | null) => void;
+  setEditReturnDate: (date: moment.Moment | null) => void;
+  setEditSigningTime: (time: moment.Moment | null) => void;
   id: string | undefined;
   setSigningsListState: (signings: ISigning[]) => void;
   signingsListState: ISigning[];
@@ -61,9 +61,9 @@ const UpdateSigningModal: React.FC<Props> = ({
     if (current !== null) {
       setEditDescription(current?.description);
       setEditEquipment(current?.equipment);
-      setEditReturnDate(current?.returningDate);
-      setEditSigningTime(current?.time);
-      setEditSigningDate(current?.signingDate);
+      setEditReturnDate(moment(current?.returningDate, 'DD/MM/YYYY'));
+      setEditSigningTime(moment(current?.time, 'HH:mm'));
+      setEditSigningDate(moment(current?.signingDate, 'DD/MM/YYYY'));
     } else {
       setEditDescription('');
       setEditReturnDate(null);
@@ -74,12 +74,14 @@ const UpdateSigningModal: React.FC<Props> = ({
   }, [current]);
 
   const handleOk = async (): Promise<void> => {
+    console.log(current);
+
     const res = await updateSigning({
       ...current,
       id,
       description: editDescription,
-      signingDate: moment(editSigningDate),
-      returningDate: moment(editReturnDate),
+      signingDate: moment(editSigningDate).toDate(),
+      returningDate: moment(editReturnDate).toDate(),
       time: moment(editSigningTime).format('HH:mm'),
       equipment: editEquipment,
     });
@@ -128,25 +130,23 @@ const UpdateSigningModal: React.FC<Props> = ({
           treeData={equipmentData}
         />
         <DatePicker
-          onChange={(date: moment.Moment | null): void =>
-            setEditSigningDate(date)
+          onChange={(date): void =>
+            setEditSigningDate(moment(date, 'DD/MM/YYYY'))
           }
           value={moment(editSigningDate, 'DD/MM/YYYY')}
           format={dateFormatList}
           style={{ marginBottom: '10px', width: '100%' }}
         />
         <DatePicker
-          onChange={(date: moment.Moment | null): void =>
-            setEditReturnDate(date)
+          onChange={(date): void =>
+            setEditReturnDate(moment(date, 'DD/MM/YYYY'))
           }
           value={moment(editReturnDate, 'DD/MM/YYYY')}
           format={dateFormatList}
           style={{ marginBottom: '10px', width: '100%' }}
         />
         <TimePicker
-          onChange={(time: moment.Moment | null): void =>
-            setEditSigningTime(time)
-          }
+          onChange={(time): void => setEditSigningTime(moment(time, 'HH:mm'))}
           value={moment(editSigningTime, 'HH:mm')}
           format={format}
           style={{ marginBottom: '10px', width: '100%' }}

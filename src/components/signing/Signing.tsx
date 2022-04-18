@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Card } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import moment from 'moment';
@@ -43,14 +43,14 @@ const Signing: React.FC<Props> = ({
   const [current, setCurrent] = useState<ISigning | null>(null);
   const [editEquipment, setEditEquipment] = useState<string[]>([]);
   const [editSigningDate, setEditSigningDate] = useState<
-    string | moment.Moment | null
+    moment.Moment | null | Date
   >(null);
   const [editReturnDate, setEditReturnDate] = useState<
-    string | moment.Moment | null
+    moment.Moment | null | Date
   >(null);
-  const [editSigningTime, setEditSigningTime] = useState<
-    string | moment.Moment | null
-  >(null);
+  const [editSigningTime, setEditSigningTime] = useState<moment.Moment | null>(
+    null
+  );
   const [editDescription, setEditDescription] = useState<string>('');
 
   return (

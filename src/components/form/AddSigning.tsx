@@ -23,7 +23,7 @@ import {
 const { TextArea } = Input;
 
 const format = 'HH:mm';
-const dateFormatList = ['DD/MM/YYYY'];
+const dateFormatList = 'DD/MM/YYYY';
 
 const AddSigning: React.FC = () => {
   const [signingData, setSigningData] =
