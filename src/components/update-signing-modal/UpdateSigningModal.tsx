@@ -74,8 +74,6 @@ const UpdateSigningModal: React.FC<Props> = ({
   }, [current]);
 
   const handleOk = async (): Promise<void> => {
-    console.log(current);
-
     const res = await updateSigning({
       ...current,
       id,
