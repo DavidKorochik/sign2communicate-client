@@ -18,3 +18,17 @@
   left: 46%;
   top: 20%;
 }
+
+@media (max-width: 480px) {
+  .loader {
+    animation: infinite-spinning 1.5s infinite;
+    animation-timing-function: linear;
+    transform-origin: 170% 300%;
+  }
+
+  .loader-wrapper {
+    position: absolute;
+    left: 25%;
+    top: 20%;
+  }
+}

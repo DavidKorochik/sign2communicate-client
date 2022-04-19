@@ -108,10 +108,12 @@ const AddSigning: React.FC = () => {
 
           <Form onSubmitCapture={handleSubmit} layout='horizontal'>
             <Form.Item
-              style={{ width: '20%', textAlign: 'right' }}
+              className='tree-form'
+              // style={{ width: '20%', textAlign: 'right' }}
               rules={[{ required: true, message: 'הכנס רשימת ציוד' }]}
             >
               <TreeSelect
+                direction='rtl'
                 value={equipment}
                 onChange={(equipmentData: string[]) =>
                   setEquipment(equipmentData)
@@ -134,6 +136,7 @@ const AddSigning: React.FC = () => {
                 rules={[{ required: true, message: 'הכנס תאריך החזרה' }]}
               >
                 <DatePicker
+                  direction='rtl'
                   value={returnDate}
                   format={dateFormatList}
                   onChange={(date: moment.Moment | null): void =>
@@ -148,6 +151,7 @@ const AddSigning: React.FC = () => {
                 rules={[{ required: true, message: 'הכנס תאריך החתמה' }]}
               >
                 <DatePicker
+                  direction='rtl'
                   value={signingDate}
                   format={dateFormatList}
                   onChange={(date: moment.Moment | null): void =>
@@ -163,6 +167,7 @@ const AddSigning: React.FC = () => {
               rules={[{ required: true, message: 'הכנס שעת החתמה' }]}
             >
               <TimePicker
+                direction='rtl'
                 value={signingTime}
                 onChange={(time: moment.Moment | null): void =>
                   setSigningTime(time)
@@ -179,18 +184,18 @@ const AddSigning: React.FC = () => {
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder=':הכנס את ההערות לפי הסדר הבא
-                שם ציוד - כמות
-                למה את/ה צריך/ה את הציוד
-                :לדוגמה
-                ,רמ"ק - 1
-                ,10 - 624
-                ,1 - 709
-                ,מגבר - 3
-                שבוע מחלקה'
                 style={{ textAlign: 'right' }}
                 rows={10}
                 cols={50}
+                placeholder='הכנס את ההערות לפי הסדר הבא:
+                שם ציוד - כמות
+                למה את/ה צריך/ה את הציוד
+                לדוגמה:
+                רמ"ק - 1,
+                624 - 10,
+                709 - 1,
+                מגבר - 3,
+                שבוע מחלקה'
               />
             </Form.Item>
 
