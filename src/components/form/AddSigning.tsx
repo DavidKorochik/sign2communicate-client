@@ -38,7 +38,6 @@ const AddSigning: React.FC = () => {
 
   const openAddSigningNotification = (placement: NotificationPlacement) => {
     notification.success({
-      style: { textAlign: 'left' },
       message: `!הוספת החתמה בהצלחה`,
       description: 'תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
       placement,
@@ -49,7 +48,6 @@ const AddSigning: React.FC = () => {
     placement: NotificationPlacement
   ) => {
     notification.error({
-      style: { textAlign: 'left' },
       message: 'ההחתמה אינה נוספה בהצלחה',
       description: 'אנא וודא/י שמילאת את כל הפרטים על ההחתמה',
       placement,
@@ -177,6 +175,7 @@ const AddSigning: React.FC = () => {
 
             <Form.Item rules={[{ required: true, message: 'הכנס הערות' }]}>
               <TextArea
+                dir='rtl'
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -199,8 +198,8 @@ const AddSigning: React.FC = () => {
               <Button
                 onClick={() =>
                   isInputsEmpty
-                    ? openFailedAddSigningNotification('topLeft')
-                    : openAddSigningNotification('topLeft')
+                    ? openFailedAddSigningNotification('topRight')
+                    : openAddSigningNotification('topRight')
                 }
                 type='primary'
                 htmlType='submit'

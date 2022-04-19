@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { Menu, Avatar } from 'antd';
+import { Menu } from 'antd';
 import { Location, NavLink, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loadUser, logoutUser } from '../../utils/users/recoilFunctions';
@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
           </Menu>
           <div className='avatar'>
             <h3>
-              ברוכים הבאים, {user !== null ? user?.name?.split(' ')[0] : ''}{' '}
+              {user !== null ? user?.name?.split(' ')[0] : ''} ,ברוכים הבאים
             </h3>
           </div>
           <div className='logo'>

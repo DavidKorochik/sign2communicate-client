@@ -22,7 +22,6 @@ const SigningsList: React.FC = () => {
 
   const openNotification = (placement: NotificationPlacement) => {
     notification.success({
-      style: { textAlign: 'left' },
       message: `!הסרת ההחתמה הושלמה בהצלחה`,
       description: 'ההחתמה עליה לחצת על מנת להסירה הוסרה בהצלחה',
       placement,
@@ -44,7 +43,7 @@ const SigningsList: React.FC = () => {
   const handleDeleteSigning = async (id: string | undefined): Promise<void> => {
     const res = await deleteSigning(id);
     setSigningsListState(res);
-    openNotification('topLeft');
+    openNotification('topRight');
   };
 
   return (
