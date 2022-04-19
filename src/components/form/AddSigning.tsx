@@ -170,6 +170,7 @@ const AddSigning: React.FC = () => {
                   setSigningTime(time)
                 }
                 format={format}
+                style={{ width: '102%' }}
                 placeholder='שעת ההחתמה'
               />
             </Form.Item>
