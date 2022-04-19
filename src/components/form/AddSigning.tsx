@@ -102,7 +102,10 @@ const AddSigning: React.FC = () => {
           </h1>
 
           <Form onSubmitCapture={handleSubmit} layout='horizontal'>
-            <Form.Item style={{ width: '20%', textAlign: 'right' }}>
+            <Form.Item
+              style={{ width: '20%', textAlign: 'right' }}
+              rules={[{ required: true, message: 'הכנס רשימת ציוד' }]}
+            >
               <TreeSelect
                 value={equipment}
                 onChange={(equipmentData: string[]) =>
@@ -121,7 +124,10 @@ const AddSigning: React.FC = () => {
             </Form.Item>
 
             <Space direction='horizontal'>
-              <Form.Item style={{ textAlign: 'right' }}>
+              <Form.Item
+                style={{ textAlign: 'right' }}
+                rules={[{ required: true, message: 'הכנס תאריך החזרה' }]}
+              >
                 <DatePicker
                   value={returnDate}
                   format={dateFormatList}
@@ -132,7 +138,10 @@ const AddSigning: React.FC = () => {
                 />
               </Form.Item>
 
-              <Form.Item style={{ textAlign: 'right' }}>
+              <Form.Item
+                style={{ textAlign: 'right' }}
+                rules={[{ required: true, message: 'הכנס תאריך החתמה' }]}
+              >
                 <DatePicker
                   value={signingDate}
                   format={dateFormatList}
@@ -144,7 +153,10 @@ const AddSigning: React.FC = () => {
               </Form.Item>
             </Space>
 
-            <Form.Item style={{ textAlign: 'right' }}>
+            <Form.Item
+              style={{ textAlign: 'right' }}
+              rules={[{ required: true, message: 'הכנס שעת החתמה' }]}
+            >
               <TimePicker
                 value={signingTime}
                 onChange={(time: moment.Moment | null): void =>
@@ -155,7 +167,7 @@ const AddSigning: React.FC = () => {
               />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item rules={[{ required: true, message: '  הכנס הערות' }]}>
               <TextArea
                 required
                 value={description}

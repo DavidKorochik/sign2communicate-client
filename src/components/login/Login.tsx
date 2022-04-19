@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import { useSetRecoilState } from 'recoil';
@@ -20,18 +20,24 @@ const Login: React.FC = () => {
   const [personalNumber, setPersonalNumber] = useState<string>('');
 
   const handleSubmit = async (): Promise<void> => {
-    const [_, res] = await Promise.all([
+    const [err, res] = await Promise.all([
       await loginUser(personalNumber),
       await loadUser(),
     ]);
 
-    setUser(res);
+    if (personalNumber.length !== 7) {
+      message.error('מספר אישי צריך להיות באורך של 7 ספרות', 2);
+    } else if (err) {
+      message.error(err, 2);
+    } else {
+      setUser(res);
 
-    setIsAuthenticated(true);
+      setIsAuthenticated(true);
 
-    setPersonalNumber('');
+      setPersonalNumber('');
 
-    navigator('/signings');
+      navigator('/signings');
+    }
   };
 
   return (

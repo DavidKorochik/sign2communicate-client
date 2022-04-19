@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { motion } from 'framer-motion';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { pageAnimation } from '../../utils/animations';
@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
   const [militaryUnit, setMilitaryUnit] = useState<string>('');
 
   const handleSubmit = async (): Promise<void> => {
-    const [_, res] = await Promise.all([
+    const [err, res] = await Promise.all([
       await createUser({
         name,
         personal_number: personalNumbner,
@@ -33,16 +33,22 @@ const Signup: React.FC = () => {
       await loadUser(),
     ]);
 
-    setUser(res);
+    if (personalNumbner.length !== 7) {
+      message.error('מספר אישי צריך להיות באורך של 7 ספרות', 2);
+    } else if (err) {
+      message.error(err, 2);
+    } else {
+      setUser(res);
 
-    setIsAuthenticated(true);
+      setIsAuthenticated(true);
 
-    setName('');
-    setPersonalNumber('');
-    setPhoneNumber('');
-    setMilitaryUnit('');
+      setName('');
+      setPersonalNumber('');
+      setPhoneNumber('');
+      setMilitaryUnit('');
 
-    navigator('/signings');
+      navigator('/signings');
+    }
   };
 
   return (
@@ -67,6 +73,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את שמך המלא' }]}
         >
           <Input
+            required
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder='שם מלא'
@@ -79,6 +86,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}
         >
           <Input
+            required
             value={personalNumbner}
             onChange={(e) => setPersonalNumber(e.target.value)}
             placeholder='מספר אישי'
@@ -91,6 +99,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את מספר הטלפון שלך' }]}
         >
           <Input
+            required
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder='מספר טלפון'
@@ -103,6 +112,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את הפלוגה/מחלקה שלך' }]}
         >
           <Input
+            required
             value={militaryUnit}
             onChange={(e) => setMilitaryUnit(e.target.value)}
             placeholder='פלוגה/מחלקה'

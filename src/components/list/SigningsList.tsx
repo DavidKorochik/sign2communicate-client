@@ -56,11 +56,11 @@ const SigningsList: React.FC = () => {
           animate={pageAnimation.enter}
           exit={pageAnimation.exit}
         >
-          {signingsListState.length === 0 ? (
+          {signingsListState?.length === 0 ? (
             <NoSignings />
           ) : (
             <Row justify='space-around'>
-              {signingsListState.map((signing) => (
+              {signingsListState?.map((signing) => (
                 <div key={signing.id} style={{ margin: '40px' }}>
                   <Signing
                     id={signing?.id}

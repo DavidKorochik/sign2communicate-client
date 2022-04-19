@@ -11,11 +11,11 @@ export const loadUser = async () => {
     const res = await axios.get('/api/auth');
     return res.data;
   } catch (err: any) {
-    console.error(err.response.data.error);
+    return err.response.data.error;
   }
 };
 
-export const createUser = async (user: IUser): Promise<void> => {
+export const createUser = async (user: IUser) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -26,11 +26,11 @@ export const createUser = async (user: IUser): Promise<void> => {
     const res = await axios.post('/api/user', user, config);
     localStorage.setItem('auth-token', res.data);
   } catch (err: any) {
-    console.error(err.response.data.error);
+    return err.response.data.error;
   }
 };
 
-export const loginUser = async (personal_number: string): Promise<void> => {
+export const loginUser = async (personal_number: string) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const loginUser = async (personal_number: string): Promise<void> => {
     const res = await axios.post('/api/auth', { personal_number }, config);
     localStorage.setItem('auth-token', res.data);
   } catch (err: any) {
-    console.error(err.response.data.error);
+    return err.response.data.error;
   }
 };
 
