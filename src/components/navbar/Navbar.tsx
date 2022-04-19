@@ -72,15 +72,7 @@ const Navbar: React.FC = () => {
             </Menu.Item>
           </Menu>
           <div className='avatar'>
-            <Avatar
-              size={50}
-              style={{
-                fontWeight: '600',
-                backgroundColor: '#1890FF',
-              }}
-            >
-              {user?.name.split(' ')[0]}
-            </Avatar>
+            <h3>{user?.name.split(' ')[0]} ,ברוכים הבאים</h3>
           </div>
           <div className='logo'>
             <RocketOutlined />
