@@ -8,6 +8,7 @@ import { signingState, loadingState } from '../../recoil/signings/atoms/atoms';
 import type { ISigning } from '../../interfaces/signing/types';
 import Spinner from '../../utils/spinner/Spinner';
 import moment from 'moment';
+import { NotificationPlacement } from 'antd/lib/notification';
 import './AddSigning.css';
 import {
   Form,
@@ -35,6 +36,26 @@ const AddSigning: React.FC = () => {
   const [signingTime, setSigningTime] = useState<moment.Moment | null>(null);
   const [description, setDescription] = useState<string>('');
 
+  const openAddSigningNotification = (placement: NotificationPlacement) => {
+    notification.success({
+      style: { textAlign: 'left' },
+      message: `!הוספת החתמה בהצלחה`,
+      description: 'תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
+      placement,
+    });
+  };
+
+  const openFailedAddSigningNotification = (
+    placement: NotificationPlacement
+  ) => {
+    notification.error({
+      style: { textAlign: 'left' },
+      message: 'ההחתמה אינה נוספה בהצלחה',
+      description: 'אנא וודא/י שמילאת את כל הפרטים על ההחתמה',
+      placement,
+    });
+  };
+
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -61,20 +82,6 @@ const AddSigning: React.FC = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1500);
-  };
-
-  const openAddSigningNotification = () => {
-    notification.success({
-      message: `!הוספת החתמה בהצלחה`,
-      description: 'תוכל לראות את פרטי ההחתמה בעמוד ההחתמות',
-    });
-  };
-
-  const openFailedAddSigningNotification = () => {
-    notification.error({
-      message: 'ההחתמה אינה נוספה בהצלחה',
-      description: 'אנא וודא/י שמילאת את כל הפרטים על ההחתמה',
-    });
   };
 
   const isInputsEmpty =
@@ -176,10 +183,10 @@ const AddSigning: React.FC = () => {
                 שם ציוד - כמות
                 למה את/ה צריך/ה את הציוד
                 :לדוגמה
-                רמ"ק - 1
-                10 - 624
-                1 - 709
-                מגבר - 3
+                ,רמ"ק - 1
+                ,10 - 624
+                ,1 - 709
+                ,מגבר - 3
                 שבוע מחלקה'
                 style={{ textAlign: 'right' }}
                 rows={10}
@@ -191,8 +198,8 @@ const AddSigning: React.FC = () => {
               <Button
                 onClick={() =>
                   isInputsEmpty
-                    ? openFailedAddSigningNotification()
-                    : openAddSigningNotification()
+                    ? openFailedAddSigningNotification('topLeft')
+                    : openAddSigningNotification('topLeft')
                 }
                 type='primary'
                 htmlType='submit'

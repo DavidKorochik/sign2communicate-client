@@ -10,6 +10,7 @@ import './SigningsList.css';
 import Spinner from '../../utils/spinner/Spinner';
 import NoSignings from './no-signings/NoSignings';
 import type { ISigning } from '../../interfaces/signing/types';
+import { NotificationPlacement } from 'antd/lib/notification';
 import {
   deleteSigning,
   getSignings,
@@ -18,6 +19,15 @@ import {
 const SigningsList: React.FC = () => {
   const [signingsListState, setSigningsListState] = useState<ISigning[]>([]);
   const [loading, setLoading] = useRecoilState<boolean>(loadingState);
+
+  const openNotification = (placement: NotificationPlacement) => {
+    notification.success({
+      style: { textAlign: 'left' },
+      message: `!הסרת ההחתמה הושלמה בהצלחה`,
+      description: 'ההחתמה עליה לחצת על מנת להסירה הוסרה בהצלחה',
+      placement,
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -34,11 +44,7 @@ const SigningsList: React.FC = () => {
   const handleDeleteSigning = async (id: string | undefined): Promise<void> => {
     const res = await deleteSigning(id);
     setSigningsListState(res);
-
-    notification.success({
-      message: `!הסרת ההחתמה הושלמה בהצלחה`,
-      description: 'ההחתמה עליה לחצת על מנת להסירה הוסרה בהצלחה',
-    });
+    openNotification('topLeft');
   };
 
   return (

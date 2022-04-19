@@ -43,7 +43,9 @@ const SigningContentModal: React.FC<Props> = ({
         title='פרטי ההחתמה'
         visible={signingContentVisible}
       >
-        <p>{description}</p>
+        <p>
+          {description} <br />
+        </p>
         <p>{equipmentToStringArr}</p>
         <p>
           {signingDate} - {returningDate}
