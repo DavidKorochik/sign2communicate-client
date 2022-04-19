@@ -167,14 +167,23 @@ const AddSigning: React.FC = () => {
               />
             </Form.Item>
 
-            <Form.Item rules={[{ required: true, message: '  הכנס הערות' }]}>
+            <Form.Item rules={[{ required: true, message: 'הכנס הערות' }]}>
               <TextArea
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder='הערות'
+                placeholder=':הכנס את ההערות לפי הסדר הבא
+                שם ציוד - כמות
+                למה את/ה צריך/ה את הציוד
+                :לדוגמה
+                רמ"ק - 1
+                10 - 624
+                1 - 709
+                מגבר - 3
+                שבוע מחלקה'
                 style={{ textAlign: 'right' }}
-                rows={4}
+                rows={10}
+                cols={50}
               />
             </Form.Item>
 
