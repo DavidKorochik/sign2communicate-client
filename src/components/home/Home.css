@@ -1,0 +1,36 @@
+.main-wrapper {
+  display: flex;
+  margin-top: 5%;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-wrapper h1 {
+  font-size: 5rem;
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+  color: gray;
+}
+
+.type-writer {
+  font-size: 3rem;
+  font-weight: 600;
+  color: gray;
+  margin-top: 10%;
+}
+
+@media (max-width: 480px) {
+  .type-writer {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: gray;
+    margin-top: 10%;
+  }
+
+  .main-wrapper h1 {
+    font-size: 2.4rem;
+    font-weight: bold;
+    font-family: 'Roboto Mono', monospace;
+    color: gray;
+  }
+}
