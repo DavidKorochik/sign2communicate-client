@@ -7,5 +7,5 @@ export interface ISigning {
   returningDate: moment.Moment | null | string | Date;
   time: moment.Moment | null | string;
   description: string;
-  user_id?: IUser;
+  user?: IUser;
 }

@@ -81,6 +81,7 @@ const SigningsList: React.FC = () => {
                     time={signing?.time}
                     setSigningsListState={setSigningsListState}
                     signingsListState={signingsListState}
+                    user={signing.user}
                   />
                 </div>
               ))}

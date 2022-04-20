@@ -2,6 +2,9 @@ import React from 'react';
 import { Modal } from 'antd';
 import moment from 'moment';
 import './SigningContentModal.css';
+import { IUser } from '../../interfaces/user/types';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/users/atoms/atoms';
 
 interface Props {
   signingContentVisible: boolean;
@@ -11,6 +14,7 @@ interface Props {
   description: string;
   signingDate: string | null | moment.Moment;
   returningDate: string | null | moment.Moment;
+  user: IUser | undefined;
 }
 
 const SigningContentModal: React.FC<Props> = ({
@@ -21,7 +25,10 @@ const SigningContentModal: React.FC<Props> = ({
   signingDate,
   returningDate,
   time,
+  user,
 }) => {
+  const userLoggedIn = useRecoilValue(userState);
+
   const descriptionSplitted = description.split(',');
 
   const equipmentToStringArr = equipment.join(', ');
@@ -48,14 +55,17 @@ const SigningContentModal: React.FC<Props> = ({
         {descriptionSplitted.map((desc) => (
           <p dir='rtl'>{desc}</p>
         ))}
-        <br />
-
         <p>{equipmentToStringArr}</p>
         <p>
           {signingDate} - {returningDate}
         </p>
         <p>
           {time?.toString().split(':')[0]}:{time?.toString().split(':')[1]}
+        </p>
+        <p>
+          {userLoggedIn?.role === 'Admin'
+            ? `${user?.personal_number} - ${user?.name}`
+            : ''}
         </p>
       </Modal>
     </>

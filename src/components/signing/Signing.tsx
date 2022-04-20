@@ -6,6 +6,9 @@ import { motion } from 'framer-motion';
 import UpdateSigningModal from '../update-signing-modal/UpdateSigningModal';
 import type { ISigning } from '../../interfaces/signing/types';
 import './Signing.css';
+import { IUser } from '../../interfaces/user/types';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/users/atoms/atoms';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -22,6 +25,7 @@ interface Props {
   equipment: string[];
   setSigningsListState: (signings: ISigning[]) => void;
   signingsListState: ISigning[];
+  user: IUser | undefined;
 }
 
 const Signing: React.FC<Props> = ({
@@ -34,11 +38,13 @@ const Signing: React.FC<Props> = ({
   equipment,
   setSigningsListState,
   signingsListState,
+  user,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [editDescription, setEditDescription] = useState<string>('');
   const [current, setCurrent] = useState<ISigning | null>(null);
   const [editEquipment, setEditEquipment] = useState<string[]>([]);
+  const userloggedIn = useRecoilValue(userState);
 
   const [isSigningContentModalVisible, setIsSigningContentModalVisible] =
     useState<boolean>(false);
@@ -71,6 +77,7 @@ const Signing: React.FC<Props> = ({
     >
       <Col span={4}>
         <Card
+          onAnimationEnd={() => setDeleteClicked(false)}
           className={`${deleteClicked ? 'fade-out' : ''}`}
           size='default'
           title='החתמה'
@@ -110,6 +117,11 @@ const Signing: React.FC<Props> = ({
           <p>
             {signingDate} - {returningDate}
           </p>
+          <p>
+            {userloggedIn?.role === 'Admin'
+              ? `${user?.personal_number} - ${user?.name}`
+              : ''}
+          </p>
         </Card>
       </Col>
       {isSigningContentModalVisible ? (
@@ -121,6 +133,7 @@ const Signing: React.FC<Props> = ({
           description={description}
           signingDate={signingDate}
           returningDate={returningDate}
+          user={user}
         />
       ) : (
         ''
