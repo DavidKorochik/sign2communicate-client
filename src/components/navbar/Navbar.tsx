@@ -58,7 +58,9 @@ const Navbar: React.FC = () => {
             </Menu.Item>
 
             <Menu.Item key='/signings' icon={<FolderOpenOutlined />}>
-              <NavLink to='/signings'>החתימות שלי</NavLink>
+              <NavLink to='/signings'>
+                {user?.role === 'Admin' ? 'החתמות כלליות' : 'החתימות שלי'}
+              </NavLink>
             </Menu.Item>
 
             <Menu.Item key='/create' icon={<UploadOutlined />}>
