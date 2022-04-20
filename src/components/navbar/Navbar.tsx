@@ -73,9 +73,9 @@ const Navbar: React.FC = () => {
               </NavLink>
             </Menu.Item>
           </Menu>
-          <div className='avatar'>
+          <div className='avatar' dir='rtl'>
             <h3>
-              {user !== null ? user?.name?.split(' ')[0] : ''} ,ברוכים הבאים
+              ברוכים הבאים, {user !== null ? user?.name?.split(' ')[0] : ''}
             </h3>
           </div>
           <div className='logo'>
