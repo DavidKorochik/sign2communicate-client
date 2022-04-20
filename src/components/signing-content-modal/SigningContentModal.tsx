@@ -22,6 +22,8 @@ const SigningContentModal: React.FC<Props> = ({
   returningDate,
   time,
 }) => {
+  const descriptionSplitted = description.split(',');
+
   const equipmentToStringArr = equipment.join(', ');
 
   const handleOk = () => {
@@ -43,9 +45,11 @@ const SigningContentModal: React.FC<Props> = ({
         title='פרטי ההחתמה'
         visible={signingContentVisible}
       >
-        <p>
-          {description} <br />
-        </p>
+        {descriptionSplitted.map((desc) => (
+          <p dir='rtl'>{desc}</p>
+        ))}
+        <br />
+
         <p>{equipmentToStringArr}</p>
         <p>
           {signingDate} - {returningDate}

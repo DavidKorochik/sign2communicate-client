@@ -53,6 +53,8 @@ const Signing: React.FC<Props> = ({
   );
   const [editDescription, setEditDescription] = useState<string>('');
 
+  console.log(description.split(','));
+
   return (
     <motion.div
       animate={

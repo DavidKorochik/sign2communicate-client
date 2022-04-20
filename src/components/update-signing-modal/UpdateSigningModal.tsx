@@ -150,6 +150,7 @@ const UpdateSigningModal: React.FC<Props> = ({
           style={{ marginBottom: '10px', width: '100%' }}
         />
         <TextArea
+          dir='rtl'
           onChange={(e) => setEditDescription(e.target.value)}
           value={editDescription}
           rows={4}
