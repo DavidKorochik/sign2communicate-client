@@ -36,24 +36,27 @@ const Signing: React.FC<Props> = ({
   signingsListState,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
-  const [isSigningContentModalVisible, setIsSigningContentModalVisible] =
-    useState(false);
-  const [isUpdateSigningModalVisible, setIsUpdateSigningModalVisible] =
-    useState(false);
+  const [editDescription, setEditDescription] = useState<string>('');
   const [current, setCurrent] = useState<ISigning | null>(null);
   const [editEquipment, setEditEquipment] = useState<string[]>([]);
+
+  const [isSigningContentModalVisible, setIsSigningContentModalVisible] =
+    useState<boolean>(false);
+
+  const [isUpdateSigningModalVisible, setIsUpdateSigningModalVisible] =
+    useState<boolean>(false);
+
   const [editSigningDate, setEditSigningDate] = useState<
     moment.Moment | null | Date
   >(null);
+
   const [editReturnDate, setEditReturnDate] = useState<
     moment.Moment | null | Date
   >(null);
+
   const [editSigningTime, setEditSigningTime] = useState<moment.Moment | null>(
     null
   );
-  const [editDescription, setEditDescription] = useState<string>('');
-
-  console.log(description.split(','));
 
   return (
     <motion.div
@@ -75,8 +78,9 @@ const Signing: React.FC<Props> = ({
           actions={[
             <DeleteOutlined
               key='delete'
+              onAnimationEnd={() => setDeleteClicked(false)}
               onClick={() => {
-                setDeleteClicked(!deleteClicked);
+                setDeleteClicked(true);
                 handleDeleteSigning(id);
               }}
             />,
