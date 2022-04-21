@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import { Col, Card } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Col, Card, Tag } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import moment from 'moment';
 import { motion } from 'framer-motion';
 import UpdateSigningModal from '../update-signing-modal/UpdateSigningModal';
 import type { ISigning } from '../../interfaces/signing/types';
-import './Signing.css';
 import { IUser } from '../../interfaces/user/types';
+import { updateSigning } from '../../utils/signings/recoilFunctions';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/users/atoms/atoms';
+import './Signing.css';
 import {
   EditOutlined,
   DeleteOutlined,
   InfoCircleOutlined,
+  CloseOutlined,
+  CheckOutlined,
 } from '@ant-design/icons';
 
 interface Props {
@@ -26,6 +29,8 @@ interface Props {
   setSigningsListState: (signings: ISigning[]) => void;
   signingsListState: ISigning[];
   user: IUser | undefined;
+  status: string | undefined;
+  signing: ISigning;
 }
 
 const Signing: React.FC<Props> = ({
@@ -39,6 +44,8 @@ const Signing: React.FC<Props> = ({
   setSigningsListState,
   signingsListState,
   user,
+  status,
+  signing,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [editDescription, setEditDescription] = useState<string>('');
@@ -64,6 +71,62 @@ const Signing: React.FC<Props> = ({
     null
   );
 
+  const handleCloseButtonClick = async (): Promise<void> => {
+    const res = await updateSigning({
+      ...signing,
+      status: 'Declined',
+    });
+
+    setSigningsListState(
+      signingsListState.map((signing) => (signing.id === id ? res : signing))
+    );
+  };
+
+  const handleCheckButtonClick = async (): Promise<void> => {
+    const res = await updateSigning({
+      ...signing,
+      status: 'Accepted',
+    });
+
+    setSigningsListState(
+      signingsListState.map((signing) => (signing.id === id ? res : signing))
+    );
+  };
+
+  const displayCloseButtonDisabled =
+    userloggedIn?.role !== 'Admin' ? (
+      <CloseOutlined
+        style={{
+          color: `${status === 'Declined' ? 'red' : ''}`,
+        }}
+        disabled={true}
+      />
+    ) : (
+      <CloseOutlined
+        style={{
+          color: `${status === 'Declined' ? 'red' : ''}`,
+        }}
+        onClick={() => handleCloseButtonClick()}
+      />
+    );
+
+  const displayCheckButtonDisabled =
+    userloggedIn?.role !== 'Admin' ? (
+      <CheckOutlined
+        style={{
+          color: `${status === 'Accepted' ? 'green' : ''}`,
+        }}
+        disabled={true}
+      />
+    ) : (
+      <CheckOutlined
+        style={{
+          color: `${status === 'Accepted' ? 'green' : ''}`,
+        }}
+        onClick={() => handleCheckButtonClick()}
+      />
+    );
+
   return (
     <motion.div
       animate={
@@ -83,6 +146,8 @@ const Signing: React.FC<Props> = ({
           title='החתמה'
           style={{ width: 350, textAlign: 'center' }}
           actions={[
+            displayCloseButtonDisabled,
+            displayCheckButtonDisabled,
             <DeleteOutlined
               key='delete'
               onAnimationEnd={() => setDeleteClicked(false)}

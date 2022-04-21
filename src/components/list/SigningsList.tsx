@@ -65,23 +65,25 @@ const SigningsList: React.FC = () => {
             <NoSignings />
           ) : (
             <Row justify='space-around'>
-              {signingsListState?.map((signing) => (
+              {signingsListState.map((signing) => (
                 <div key={signing.id} style={{ margin: '40px' }}>
                   <Signing
-                    id={signing?.id}
-                    description={signing?.description}
-                    signingDate={moment(signing?.signingDate).format(
+                    id={signing.id}
+                    description={signing.description}
+                    signingDate={moment(signing.signingDate).format(
                       'DD/MM/YYYY'
                     )}
-                    returningDate={moment(signing?.returningDate).format(
+                    returningDate={moment(signing.returningDate).format(
                       'DD/MM/YYYY'
                     )}
                     handleDeleteSigning={handleDeleteSigning}
-                    equipment={signing?.equipment}
-                    time={signing?.time}
+                    equipment={signing.equipment}
+                    time={signing.time}
                     setSigningsListState={setSigningsListState}
                     signingsListState={signingsListState}
                     user={signing.user}
+                    status={signing.status}
+                    signing={signing}
                   />
                 </div>
               ))}
