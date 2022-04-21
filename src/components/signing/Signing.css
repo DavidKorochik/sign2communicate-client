@@ -1,7 +1,19 @@
-.accepted {
-  color: green;
+.check-outlined:hover {
+  color: green !important;
 }
 
-.declined {
-  color: red;
+.close-outlined:hover {
+  color: red !important;
+}
+
+.delete-outlined:hover {
+  color: darkred !important;
+}
+
+.edit-outlined:hover {
+  color: teal !important;
+}
+
+.info-outlined:hover {
+  color: dodgerblue !important;
 }

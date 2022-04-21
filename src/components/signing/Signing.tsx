@@ -103,6 +103,7 @@ const Signing: React.FC<Props> = ({
     userloggedIn?.role !== 'Admin' ? (
       <Popover content={deleteAcceptContentHover} trigger='click'>
         <CloseOutlined
+          className='close-outlined'
           style={{
             color: `${status === 'Declined' ? 'red' : ''}`,
           }}
@@ -111,6 +112,7 @@ const Signing: React.FC<Props> = ({
       </Popover>
     ) : (
       <CloseOutlined
+        className='close-outlined'
         style={{
           color: `${status === 'Declined' ? 'red' : ''}`,
         }}
@@ -122,6 +124,7 @@ const Signing: React.FC<Props> = ({
     userloggedIn?.role !== 'Admin' ? (
       <Popover content={deleteAcceptContentHover} trigger='click'>
         <CheckOutlined
+          className='check-outlined'
           style={{
             color: `${status === 'Accepted' ? 'green' : ''}`,
           }}
@@ -130,6 +133,7 @@ const Signing: React.FC<Props> = ({
       </Popover>
     ) : (
       <CheckOutlined
+        className='check-outlined'
         style={{
           color: `${status === 'Accepted' ? 'green' : ''}`,
         }}
@@ -159,6 +163,7 @@ const Signing: React.FC<Props> = ({
             displayCloseButtonDisabled,
             displayCheckButtonDisabled,
             <DeleteOutlined
+              className='delete-outlined'
               key='delete'
               onAnimationEnd={() => setDeleteClicked(false)}
               onClick={() => {
@@ -167,6 +172,7 @@ const Signing: React.FC<Props> = ({
               }}
             />,
             <EditOutlined
+              className='edit-outlined'
               onClick={() => {
                 setIsUpdateSigningModalVisible(!isUpdateSigningModalVisible);
                 setCurrent({
@@ -181,6 +187,7 @@ const Signing: React.FC<Props> = ({
               key='edit'
             />,
             <InfoCircleOutlined
+              className='info-outlined'
               onClick={() =>
                 setIsSigningContentModalVisible(!isSigningContentModalVisible)
               }
