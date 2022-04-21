@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Col, Card, Tag } from 'antd';
+import React, { useState } from 'react';
+import { Col, Card, Popover } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import moment from 'moment';
 import { motion } from 'framer-motion';
@@ -71,6 +71,12 @@ const Signing: React.FC<Props> = ({
     null
   );
 
+  const deleteAcceptContentHover = (
+    <p style={{ color: 'red', fontSize: '15px' }}>
+      רק מנהלי אתר יכולים לבצע פעולה זו
+    </p>
+  );
+
   const handleCloseButtonClick = async (): Promise<void> => {
     const res = await updateSigning({
       ...signing,
@@ -95,12 +101,14 @@ const Signing: React.FC<Props> = ({
 
   const displayCloseButtonDisabled =
     userloggedIn?.role !== 'Admin' ? (
-      <CloseOutlined
-        style={{
-          color: `${status === 'Declined' ? 'red' : ''}`,
-        }}
-        disabled={true}
-      />
+      <Popover content={deleteAcceptContentHover} trigger='click'>
+        <CloseOutlined
+          style={{
+            color: `${status === 'Declined' ? 'red' : ''}`,
+          }}
+          disabled={true}
+        />
+      </Popover>
     ) : (
       <CloseOutlined
         style={{
@@ -112,12 +120,14 @@ const Signing: React.FC<Props> = ({
 
   const displayCheckButtonDisabled =
     userloggedIn?.role !== 'Admin' ? (
-      <CheckOutlined
-        style={{
-          color: `${status === 'Accepted' ? 'green' : ''}`,
-        }}
-        disabled={true}
-      />
+      <Popover content={deleteAcceptContentHover} trigger='click'>
+        <CheckOutlined
+          style={{
+            color: `${status === 'Accepted' ? 'green' : ''}`,
+          }}
+          disabled={true}
+        />
+      </Popover>
     ) : (
       <CheckOutlined
         style={{
