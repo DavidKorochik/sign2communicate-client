@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { updateSigning } from '../../utils/signings/recoilFunctions';
 import { equipmentData } from '../../utils/equipmentData';
@@ -23,16 +23,6 @@ interface Props {
   updateSigningVisible: boolean;
   current: ISigning | null;
   setCurrent: (signing: ISigning | null) => void;
-  editDescription: string;
-  editEquipment: string[];
-  editSigningDate: null | moment.Moment | Date;
-  editReturnDate: null | moment.Moment | Date;
-  editSigningTime: null | moment.Moment;
-  setEditDescription: (description: string) => void;
-  setEditEquipment: (equipment: string[]) => void;
-  setEditSigningDate: (date: moment.Moment | null) => void;
-  setEditReturnDate: (date: moment.Moment | null) => void;
-  setEditSigningTime: (time: moment.Moment | null) => void;
   id: string | undefined;
   setSigningsListState: (signings: ISigning[]) => void;
   signingsListState: ISigning[];
@@ -41,22 +31,27 @@ interface Props {
 const UpdateSigningModal: React.FC<Props> = ({
   setIsUpdateSigningModalVisible,
   updateSigningVisible,
-  current,
-  setCurrent,
-  editEquipment,
-  editDescription,
-  editReturnDate,
-  editSigningDate,
-  editSigningTime,
-  setEditDescription,
-  setEditEquipment,
-  setEditReturnDate,
-  setEditSigningDate,
-  setEditSigningTime,
   id,
   setSigningsListState,
+  current,
+  setCurrent,
   signingsListState,
 }) => {
+  const [editDescription, setEditDescription] = useState<string>('');
+  const [editEquipment, setEditEquipment] = useState<string[]>([]);
+
+  const [editSigningDate, setEditSigningDate] = useState<
+    moment.Moment | null | Date
+  >(null);
+
+  const [editReturnDate, setEditReturnDate] = useState<
+    moment.Moment | null | Date
+  >(null);
+
+  const [editSigningTime, setEditSigningTime] = useState<moment.Moment | null>(
+    null
+  );
+
   useEffect(() => {
     if (current !== null) {
       setEditDescription(current?.description);

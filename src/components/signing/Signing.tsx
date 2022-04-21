@@ -48,9 +48,7 @@ const Signing: React.FC<Props> = ({
   signing,
 }) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
-  const [editDescription, setEditDescription] = useState<string>('');
   const [current, setCurrent] = useState<ISigning | null>(null);
-  const [editEquipment, setEditEquipment] = useState<string[]>([]);
   const userloggedIn = useRecoilValue(userState);
 
   const [isSigningContentModalVisible, setIsSigningContentModalVisible] =
@@ -58,18 +56,6 @@ const Signing: React.FC<Props> = ({
 
   const [isUpdateSigningModalVisible, setIsUpdateSigningModalVisible] =
     useState<boolean>(false);
-
-  const [editSigningDate, setEditSigningDate] = useState<
-    moment.Moment | null | Date
-  >(null);
-
-  const [editReturnDate, setEditReturnDate] = useState<
-    moment.Moment | null | Date
-  >(null);
-
-  const [editSigningTime, setEditSigningTime] = useState<moment.Moment | null>(
-    null
-  );
 
   const deleteAcceptContentHover = (
     <p style={{ color: 'red', fontSize: '15px' }}>
@@ -99,13 +85,25 @@ const Signing: React.FC<Props> = ({
     );
   };
 
+  const handleEditSigning = () => {
+    setIsUpdateSigningModalVisible(!isUpdateSigningModalVisible);
+    setCurrent({
+      description,
+      equipment,
+      returningDate,
+      signingDate,
+      time,
+      id,
+    });
+  };
+
   const displayCloseButtonDisabled =
     userloggedIn?.role !== 'Admin' ? (
       <Popover content={deleteAcceptContentHover} trigger='click'>
         <CloseOutlined
           className='close-outlined'
           style={{
-            color: `${status === 'Declined' ? 'red' : ''}`,
+            color: `${status === 'Declined' && 'red'}`,
           }}
           disabled={true}
         />
@@ -114,7 +112,7 @@ const Signing: React.FC<Props> = ({
       <CloseOutlined
         className='close-outlined'
         style={{
-          color: `${status === 'Declined' ? 'red' : ''}`,
+          color: `${status === 'Declined' && 'red'}`,
         }}
         onClick={() => handleCloseButtonClick()}
       />
@@ -126,7 +124,7 @@ const Signing: React.FC<Props> = ({
         <CheckOutlined
           className='check-outlined'
           style={{
-            color: `${status === 'Accepted' ? 'green' : ''}`,
+            color: `${status === 'Accepted' && 'green'}`,
           }}
           disabled={true}
         />
@@ -144,18 +142,16 @@ const Signing: React.FC<Props> = ({
   return (
     <motion.div
       animate={
-        deleteClicked
-          ? {
-              scale: 0,
-              transition: { ease: 'easeOut', duration: 1 },
-            }
-          : ''
+        deleteClicked && {
+          scale: 0,
+          transition: { ease: 'easeOut', duration: 1 },
+        }
       }
     >
       <Col span={4}>
         <Card
           onAnimationEnd={() => setDeleteClicked(false)}
-          className={`${deleteClicked ? 'fade-out' : ''}`}
+          className={`${deleteClicked && 'fade-out'}`}
           size='default'
           title='החתמה'
           style={{ width: 350, textAlign: 'center' }}
@@ -173,17 +169,7 @@ const Signing: React.FC<Props> = ({
             />,
             <EditOutlined
               className='edit-outlined'
-              onClick={() => {
-                setIsUpdateSigningModalVisible(!isUpdateSigningModalVisible);
-                setCurrent({
-                  description,
-                  equipment,
-                  returningDate,
-                  signingDate,
-                  time,
-                  id,
-                });
-              }}
+              onClick={() => handleEditSigning()}
               key='edit'
             />,
             <InfoCircleOutlined
@@ -200,13 +186,12 @@ const Signing: React.FC<Props> = ({
             {signingDate} - {returningDate}
           </p>
           <p>
-            {userloggedIn?.role === 'Admin'
-              ? `${user?.personal_number} - ${user?.name}`
-              : ''}
+            {userloggedIn?.role === 'Admin' &&
+              `${user?.personal_number} - ${user?.name}`}
           </p>
         </Card>
       </Col>
-      {isSigningContentModalVisible ? (
+      {isSigningContentModalVisible && (
         <SigningContentModal
           setIsSigningContentModalVisible={setIsSigningContentModalVisible}
           signingContentVisible={isSigningContentModalVisible}
@@ -217,31 +202,17 @@ const Signing: React.FC<Props> = ({
           returningDate={returningDate}
           user={user}
         />
-      ) : (
-        ''
       )}
-      {isUpdateSigningModalVisible ? (
+      {isUpdateSigningModalVisible && (
         <UpdateSigningModal
           setIsUpdateSigningModalVisible={setIsUpdateSigningModalVisible}
           updateSigningVisible={isUpdateSigningModalVisible}
           current={current}
           setCurrent={setCurrent}
-          editDescription={editDescription}
-          editEquipment={editEquipment}
-          editSigningDate={editSigningDate}
-          editSigningTime={editSigningTime}
-          editReturnDate={editReturnDate}
-          setEditDescription={setEditDescription}
-          setEditEquipment={setEditEquipment}
-          setEditSigningDate={setEditSigningDate}
-          setEditSigningTime={setEditSigningTime}
-          setEditReturnDate={setEditReturnDate}
           id={id}
           setSigningsListState={setSigningsListState}
           signingsListState={signingsListState}
         />
-      ) : (
-        ''
       )}
     </motion.div>
   );
