@@ -52,8 +52,10 @@ const SigningContentModal: React.FC<Props> = ({
         title='פרטי ההחתמה'
         visible={signingContentVisible}
       >
-        {descriptionSplitted.map((desc) => (
-          <p dir='rtl'>{desc}</p>
+        {descriptionSplitted.map((desc, i) => (
+          <p key={i} dir='rtl'>
+            {desc}
+          </p>
         ))}
         <p>{equipmentToStringArr}</p>
         <p>
