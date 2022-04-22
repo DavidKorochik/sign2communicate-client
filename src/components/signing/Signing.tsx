@@ -25,11 +25,9 @@ const Signing: React.FC<SigningComponentProps> = ({
   handleDeleteSigning,
   setSigningsListState,
   signingsListState,
-
   signing,
 }) => {
   const { description, equipment, time, id, status, user } = signing;
-
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [current, setCurrent] = useState<ISigning | null>(null);
   const userloggedIn = useRecoilValue(userState);
@@ -86,7 +84,7 @@ const Signing: React.FC<SigningComponentProps> = ({
         <CloseOutlined
           className='close-outlined'
           style={{
-            color: `${status === 'Declined' && 'red'}`,
+            color: `${status === 'Declined' ? 'red' : ''}`,
           }}
           disabled={true}
         />
@@ -95,7 +93,7 @@ const Signing: React.FC<SigningComponentProps> = ({
       <CloseOutlined
         className='close-outlined'
         style={{
-          color: `${status === 'Declined' && 'red'}`,
+          color: `${status === 'Declined' ? 'red' : ''}`,
         }}
         onClick={() => handleCloseButtonClick()}
       />
@@ -107,7 +105,7 @@ const Signing: React.FC<SigningComponentProps> = ({
         <CheckOutlined
           className='check-outlined'
           style={{
-            color: `${status === 'Accepted' && 'green'}`,
+            color: `${status === 'Accepted' ? 'green' : ''}`,
           }}
           disabled={true}
         />
