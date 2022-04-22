@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { updateSigning } from '../../utils/signings/recoilFunctions';
 import { equipmentData } from '../../utils/equipmentData';
-import type { ISigning } from '../../interfaces/signing/types';
+import type { UpdateSigningModalProps } from '../../interfaces/signing/types';
 import './UpdateSigningModal.css';
 import {
   Modal,
@@ -18,17 +18,7 @@ const { TextArea } = Input;
 const format = 'HH:mm';
 const dateFormatList = 'DD/MM/YYYY';
 
-interface Props {
-  setIsUpdateSigningModalVisible: (bool: boolean) => void;
-  updateSigningVisible: boolean;
-  current: ISigning | null;
-  setCurrent: (signing: ISigning | null) => void;
-  id: string | undefined;
-  setSigningsListState: (signings: ISigning[]) => void;
-  signingsListState: ISigning[];
-}
-
-const UpdateSigningModal: React.FC<Props> = ({
+const UpdateSigningModal: React.FC<UpdateSigningModalProps> = ({
   setIsUpdateSigningModalVisible,
   updateSigningVisible,
   id,

@@ -6,11 +6,11 @@ import Signing from '../signing/Signing';
 import { motion } from 'framer-motion';
 import { pageAnimation } from '../../utils/animations';
 import moment from 'moment';
-import './SigningsList.css';
 import Spinner from '../../utils/spinner/Spinner';
 import NoSignings from './no-signings/NoSignings';
 import type { ISigning } from '../../interfaces/signing/types';
 import { NotificationPlacement } from 'antd/lib/notification';
+import './SigningsList.css';
 import {
   deleteSigning,
   getSignings,
@@ -68,8 +68,6 @@ const SigningsList: React.FC = () => {
               {signingsListState.map((signing) => (
                 <div key={signing.id} style={{ margin: '40px' }}>
                   <Signing
-                    id={signing.id}
-                    description={signing.description}
                     signingDate={moment(signing.signingDate).format(
                       'DD/MM/YYYY'
                     )}
@@ -77,12 +75,8 @@ const SigningsList: React.FC = () => {
                       'DD/MM/YYYY'
                     )}
                     handleDeleteSigning={handleDeleteSigning}
-                    equipment={signing.equipment}
-                    time={signing.time}
                     setSigningsListState={setSigningsListState}
                     signingsListState={signingsListState}
-                    user={signing.user}
-                    status={signing.status}
                     signing={signing}
                   />
                 </div>

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Col, Card, Popover } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
-import moment from 'moment';
 import { motion } from 'framer-motion';
 import UpdateSigningModal from '../update-signing-modal/UpdateSigningModal';
-import type { ISigning } from '../../interfaces/signing/types';
-import { IUser } from '../../interfaces/user/types';
 import { updateSigning } from '../../utils/signings/recoilFunctions';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../recoil/users/atoms/atoms';
 import './Signing.css';
+import type {
+  ISigning,
+  SigningComponentProps,
+} from '../../interfaces/signing/types';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -18,35 +19,17 @@ import {
   CheckOutlined,
 } from '@ant-design/icons';
 
-interface Props {
-  description: string;
-  signingDate: string | null | moment.Moment;
-  returningDate: string | null | moment.Moment;
-  id: string | undefined;
-  handleDeleteSigning: (id: string | undefined) => Promise<void>;
-  time: string | null | moment.Moment;
-  equipment: string[];
-  setSigningsListState: (signings: ISigning[]) => void;
-  signingsListState: ISigning[];
-  user: IUser | undefined;
-  status: string | undefined;
-  signing: ISigning;
-}
-
-const Signing: React.FC<Props> = ({
-  description,
+const Signing: React.FC<SigningComponentProps> = ({
   signingDate,
   returningDate,
-  id,
   handleDeleteSigning,
-  time,
-  equipment,
   setSigningsListState,
   signingsListState,
-  user,
-  status,
+
   signing,
 }) => {
+  const { description, equipment, time, id, status, user } = signing;
+
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [current, setCurrent] = useState<ISigning | null>(null);
   const userloggedIn = useRecoilValue(userState);
@@ -195,12 +178,9 @@ const Signing: React.FC<Props> = ({
         <SigningContentModal
           setIsSigningContentModalVisible={setIsSigningContentModalVisible}
           signingContentVisible={isSigningContentModalVisible}
-          time={time}
-          equipment={equipment}
-          description={description}
           signingDate={signingDate}
           returningDate={returningDate}
-          user={user}
+          signing={signing}
         />
       )}
       {isUpdateSigningModalVisible && (
