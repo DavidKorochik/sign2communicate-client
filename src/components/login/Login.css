@@ -12,3 +12,18 @@
   color: gray;
   font-weight: bold;
 }
+
+.site-explain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+  color: gray;
+}
+
+.site-explain h2 {
+  color: gray;
+  font-weight: bold;
+  padding-bottom: 13px;
+}
