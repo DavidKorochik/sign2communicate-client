@@ -8,7 +8,9 @@ export const loadUser = async () => {
   }
 
   try {
-    const res = await axios.get('/api/auth');
+    const res = await axios.get(
+      'https://sign2communicate.herokuapp.com/api/auth'
+    );
     return res.data;
   } catch (err: any) {
     return err.response.data.error;
@@ -23,7 +25,11 @@ export const createUser = async (user: IUser) => {
   };
 
   try {
-    const res = await axios.post('/api/user', user, config);
+    const res = await axios.post(
+      'https://sign2communicate.herokuapp.com/api/user',
+      user,
+      config
+    );
     localStorage.setItem('auth-token', res.data);
   } catch (err: any) {
     return err.response.data.error;
@@ -38,7 +44,11 @@ export const loginUser = async (personal_number: string) => {
   };
 
   try {
-    const res = await axios.post('/api/auth', { personal_number }, config);
+    const res = await axios.post(
+      'https://sign2communicate.herokuapp.com/api/auth',
+      { personal_number },
+      config
+    );
     localStorage.setItem('auth-token', res.data);
   } catch (err: any) {
     return err.response.data.error;
