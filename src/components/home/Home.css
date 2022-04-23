@@ -16,7 +16,7 @@
   font-size: 3rem;
   font-weight: 600;
   color: gray;
-  margin-top: 10%;
+  margin-top: 2%;
 }
 
 @media (max-width: 480px) {
@@ -24,7 +24,7 @@
     font-size: 1.8rem;
     font-weight: 600;
     color: gray;
-    margin-top: 10%;
+    margin-top: 3%;
   }
 
   .main-wrapper h1 {
@@ -32,6 +32,16 @@
     font-weight: bold;
     font-family: 'Roboto Mono', monospace;
     color: gray;
+  }
+
+  .site-explain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10%;
+    height: 100%;
+    color: black;
   }
 }
 
@@ -41,11 +51,11 @@
   align-items: center;
   flex-direction: column;
   margin-top: 5%;
-  color: gray;
+  color: black;
 }
 
 .site-explain h2 {
-  color: gray;
+  color: black;
   font-weight: bold;
   padding-bottom: 13px;
 }
