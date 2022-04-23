@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Card, Popover } from 'antd';
+import { Col, Card, Popover, Popconfirm } from 'antd';
 import SigningContentModal from '../signing-content-modal/SigningContentModal';
 import { motion } from 'framer-motion';
 import UpdateSigningModal from '../update-signing-modal/UpdateSigningModal';
@@ -139,15 +139,21 @@ const Signing: React.FC<SigningComponentProps> = ({
           actions={[
             displayCloseButtonDisabled,
             displayCheckButtonDisabled,
-            <DeleteOutlined
-              className='delete-outlined'
-              key='delete'
-              onAnimationEnd={() => setDeleteClicked(false)}
-              onClick={() => {
+            <Popconfirm
+              title='?האם אתה בטוח שתרצה לבטל את החתמה זו'
+              okText='כן'
+              cancelText='לא'
+              onConfirm={() => {
                 setDeleteClicked(true);
                 handleDeleteSigning(id);
               }}
-            />,
+            >
+              <DeleteOutlined
+                className='delete-outlined'
+                key='delete'
+                onAnimationEnd={() => setDeleteClicked(false)}
+              />
+            </Popconfirm>,
             <EditOutlined
               className='edit-outlined'
               onClick={() => handleEditSigning()}
