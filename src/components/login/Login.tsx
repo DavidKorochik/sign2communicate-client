@@ -62,6 +62,7 @@ const Login: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}
         >
           <Input
+            dir='rtl'
             value={personalNumber}
             onChange={(e) => setPersonalNumber(e.target.value)}
             placeholder='מספר אישי'

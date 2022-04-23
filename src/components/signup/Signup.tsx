@@ -73,6 +73,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את שמך המלא' }]}
         >
           <Input
+            dir='rtl'
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -86,6 +87,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את המספר האישי שלך' }]}
         >
           <Input
+            dir='rtl'
             required
             value={personalNumbner}
             onChange={(e) => setPersonalNumber(e.target.value)}
@@ -99,6 +101,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את מספר הטלפון שלך' }]}
         >
           <Input
+            dir='rtl'
             required
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -112,6 +115,7 @@ const Signup: React.FC = () => {
           rules={[{ required: true, message: 'הכנס/י את הפלוגה/מחלקה שלך' }]}
         >
           <Input
+            dir='rtl'
             required
             value={militaryUnit}
             onChange={(e) => setMilitaryUnit(e.target.value)}
