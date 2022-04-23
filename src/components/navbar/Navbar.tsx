@@ -42,6 +42,8 @@ const Navbar: React.FC = () => {
     setIsAuthenticated(false);
   };
 
+  console.log(user?.name?.split(' '));
+
   return (
     <>
       {isAuthenticated || localStorage.getItem('auth-token') ? (
@@ -74,9 +76,7 @@ const Navbar: React.FC = () => {
             </Menu.Item>
           </Menu>
           <div className='avatar' dir='rtl'>
-            <h3>
-              ברוכים הבאים, {user !== null ? user?.name?.split(' ')[0] : ''}
-            </h3>
+            <h3>ברוכים הבאים, {user !== null ? user?.name : ''}</h3>
           </div>
           <div className='logo'>
             <RocketOutlined />

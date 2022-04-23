@@ -17,6 +17,15 @@
 }
 
 .avatar h3 {
+  font-size: 14px;
   color: white;
   font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .avatar h3 {
+    font-size: 13px;
+    color: white;
+    font-weight: bold;
+  }
 }
